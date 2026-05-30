@@ -9,7 +9,7 @@ import {
 import { Card } from '../common/Card';
 import { ConfirmModal } from '../common/Modal';
 import { FileIcon } from '../common/FileIcon';
-import { formatFileSize, formatRelativeTime, copyToClipboard } from '../../lib/utils';
+import { formatFileSize, formatRelativetime, copyToClipboard } from '../../lib/utils';
 import { getFileDownloadUrl, getFileViewUrl } from '../../api/fileApi';
 import type { FileType } from '../../types';
 
@@ -67,7 +67,7 @@ export const FileCard = ({ file, onDelete }: FileCardProps) => {
         </div>
 
         <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-          <p>Uploaded {formatRelativeTime(file.uploadedAt)}</p>
+          <p>Uploaded {formatRelativetime(file.uploadedAt)}</p>
           <p className="truncate mt-0.5">
             {file.mimetype.split('/')[1]?.toUpperCase() || file.mimetype}
           </p>

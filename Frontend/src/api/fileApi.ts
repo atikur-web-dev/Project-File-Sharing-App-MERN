@@ -59,6 +59,24 @@ export const uploadFilesApi = async (
   return res.data.data;
 };
 
+//  Multiple file api
+export const uploadMultipleFilesApi = async (files: File[]): Promise<FileUploadResponse[]> => {
+  const formData = new FormData();
+  files.forEach((file) => {
+    formData.append("sharedFile", file);
+  });
+
+  const response = await api.post<{ data: FileUploadResponse[] }>(
+    "/files",
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
+
+  return response.data.data;
+};
+
 // Delete file
 export const deleteFileApi = async (uuid: string): Promise<void> => {
   await api.delete(`/files/${uuid}`);

@@ -209,7 +209,7 @@ export const FileUpload = ({ onUploadSuccess, onUploadError }: FileUploadProps) 
                       className="w-10 h-10 rounded object-cover shrink-0"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded bg-gray-200 dark:bg-gray-600 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded bg-gray-200 dark:bg-gray-600 flex items-center justify-center shrink-0">
                       <FileIcon mimetype={file.type} size="sm" />
                     </div>
                   )}
@@ -226,7 +226,7 @@ export const FileUpload = ({ onUploadSuccess, onUploadError }: FileUploadProps) 
 
                 <button
                   onClick={() => removeFile(index)}
-                  className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors ml-2 flex-shrink-0"
+                  className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors ml-2 shrink-0"
                 >
                   <XMarkIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                 </button>
