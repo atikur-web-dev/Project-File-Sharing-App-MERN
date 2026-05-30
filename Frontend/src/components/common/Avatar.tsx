@@ -31,7 +31,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         src={src}
         alt={alt || name}
         className={cn(
-          'rounded-full object-cover flex-shrink-0',
+          'rounded-full object-cover shrink-0',
           sizeMap[size],
           className
         )}
