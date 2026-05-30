@@ -2,9 +2,10 @@ import { api } from "./axios";
 import type { FileType } from "../types";
 
 // Download statistics structure
+// src/api/analyticsApi.ts
 export interface DownloadStats {
   totalDownloads: number;
-  topFiles: {
+  filesByDownloads: {
     fileName: string;
     downloadCount: number;
     uuid: string;
