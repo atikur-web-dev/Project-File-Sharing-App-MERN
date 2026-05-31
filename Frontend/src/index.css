@@ -28,10 +28,6 @@
 
   --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
   --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-  --animate-fade-in: fadeIn 0.3s ease-in-out;
-  --animate-slide-up: slideUp 0.3s ease-out;
-  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes fadeIn {
@@ -53,12 +49,8 @@
     @apply bg-gray-50 text-gray-900 antialiased;
   }
 
-  .dark body {
-    @apply bg-gray-900 text-gray-100;
-  }
-
   *:focus-visible {
-    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white;
   }
 
   ::-webkit-scrollbar {
@@ -67,15 +59,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-gray-100 dark:bg-gray-800;
+    @apply bg-gray-100;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 dark:bg-gray-600 rounded-full;
+    @apply bg-gray-400 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-500 dark:bg-gray-500;
+    @apply bg-gray-500;
   }
 }
 
@@ -85,7 +77,7 @@
   }
 
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-sm dark:bg-gray-800/80;
+    @apply bg-white/80 backdrop-blur-sm;
   }
 }
 

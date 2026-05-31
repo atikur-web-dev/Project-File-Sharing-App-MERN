@@ -7,6 +7,7 @@ import { AuthProvider } from './contexts/AuthProvider';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { PageTransition } from './components/common/PageTransition';
 
+
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
