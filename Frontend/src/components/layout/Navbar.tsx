@@ -78,7 +78,7 @@ export const Navbar = () => {
           <div className="flex justify-between items-center h-14 sm:h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2" onClick={closeMobileMenu}>
-              <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-linear-to-br from-primary-500 to-accent-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">F</span>
               </div>
               <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white hidden sm:block">

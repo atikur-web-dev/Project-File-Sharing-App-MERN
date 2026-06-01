@@ -1,6 +1,6 @@
 // src/pages/DashboardPage.tsx
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { FolderIcon } from '@heroicons/react/24/outline';
 import { Navbar } from '../components/layout/Navbar';
 import { FileUpload } from '../components/files/FileUpload';
@@ -20,7 +20,7 @@ import type { FileType, FileUploadResponse } from '../types';
 const LIMIT = 12;
 
 const DashboardPage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 
   const [files, setFiles] = useState<FileType[]>([]);
