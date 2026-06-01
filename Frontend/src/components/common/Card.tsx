@@ -37,52 +37,45 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       className={cn(
-        // Base styles
-        'rounded-xl bg-white dark:bg-gray-800',
-        'shadow-soft dark:shadow-none',
+        // Base styles - NOW WITH LIGHT MODE COLORS
+        'rounded-xl bg-white dark:bg-gray-800', // WHITE in light mode, dark gray in dark mode
+        'shadow-sm dark:shadow-none', // subtle shadow in light mode
         'transition-all duration-200',
-        // Border
+        
+        // Border - visible in both modes
         bordered && 'border border-gray-200 dark:border-gray-700',
+        
         // Padding
         paddingStyles[padding],
+        
         // Interactive states
         isInteractive && [
           'cursor-pointer',
           'touch-manipulation',
-          hoverable && 'hover:shadow-medium hover:-translate-y-0.5',
+          hoverable && 'hover:shadow-md hover:-translate-y-0.5 hover:bg-gray-50 dark:hover:bg-gray-700/50',
           clickable && 'active:scale-[0.99]',
         ],
+        
         className
       )}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
-      onKeyDown={(e) => {
-        if (onClick && (e.key === 'Enter' || e.key === ' ')) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
     >
       {children}
     </div>
   );
 };
 
-// ============================================================
-// Card Sub-Components (Header, Title, Description, Content, Footer)
-// ============================================================
-
-interface CardSectionProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-export const CardHeader: React.FC<CardSectionProps> = ({ children, className }) => {
+// Card Sub-components
+export const CardHeader: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+  children, 
+  className 
+}) => {
   return (
     <div
       className={cn(
-        'mb-3 sm:mb-4 border-b border-gray-200 pb-3 sm:pb-4 dark:border-gray-700',
+        'mb-3 sm:mb-4 border-b border-gray-200 dark:border-gray-700 pb-3 sm:pb-4',
         className
       )}
     >
@@ -91,11 +84,14 @@ export const CardHeader: React.FC<CardSectionProps> = ({ children, className }) 
   );
 };
 
-export const CardTitle: React.FC<CardSectionProps> = ({ children, className }) => {
+export const CardTitle: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+  children, 
+  className 
+}) => {
   return (
     <h3
       className={cn(
-        'text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white',
+        'text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white', // Dark text in light mode
         className
       )}
     >
@@ -104,11 +100,14 @@ export const CardTitle: React.FC<CardSectionProps> = ({ children, className }) =
   );
 };
 
-export const CardDescription: React.FC<CardSectionProps> = ({ children, className }) => {
+export const CardDescription: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+  children, 
+  className 
+}) => {
   return (
     <p
       className={cn(
-        'text-xs sm:text-sm text-gray-500 dark:text-gray-400',
+        'text-xs sm:text-sm text-gray-500 dark:text-gray-400', // Gray text in light mode
         className
       )}
     >
@@ -117,15 +116,21 @@ export const CardDescription: React.FC<CardSectionProps> = ({ children, classNam
   );
 };
 
-export const CardContent: React.FC<CardSectionProps> = ({ children, className }) => {
+export const CardContent: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+  children, 
+  className 
+}) => {
   return <div className={cn('', className)}>{children}</div>;
 };
 
-export const CardFooter: React.FC<CardSectionProps> = ({ children, className }) => {
+export const CardFooter: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+  children, 
+  className 
+}) => {
   return (
     <div
       className={cn(
-        'mt-3 sm:mt-4 border-t border-gray-200 pt-3 sm:pt-4 dark:border-gray-700',
+        'mt-3 sm:mt-4 border-t border-gray-200 dark:border-gray-700 pt-3 sm:pt-4',
         className
       )}
     >

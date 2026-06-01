@@ -73,13 +73,12 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <nav className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
-
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2" onClick={closeMobileMenu}>
-              <div className="w-8 h-8 bg-linear-to-br from-primary-500 to-accent-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">F</span>
               </div>
               <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white hidden sm:block">
@@ -97,7 +96,7 @@ export const Navbar = () => {
                     'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                     isActive(item.href)
                       ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400'
-                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
                   )}
                 >
                   {item.icon}
@@ -109,7 +108,7 @@ export const Navbar = () => {
             {/* Right Section */}
             <div className="flex items-center gap-1 sm:gap-2">
               <ThemeToggle size="sm" />
-
+              
               {/* Desktop Auth Buttons */}
               {isAuthenticated && user ? (
                 <div className="hidden md:flex items-center gap-2">
@@ -156,11 +155,10 @@ export const Navbar = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
             <div className="px-4 py-3 space-y-1">
-
               {isAuthenticated && user && (
-                <div className="px-3 py-2 mb-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <div className="px-3 py-2 mb-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
                     {user.displayName}
                   </p>
@@ -169,7 +167,7 @@ export const Navbar = () => {
                   </p>
                 </div>
               )}
-
+              
               {visibleItems.map((item) => (
                 <Link
                   key={item.href}
@@ -178,7 +176,7 @@ export const Navbar = () => {
                     'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
                     isActive(item.href)
                       ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400'
-                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
                   )}
                   onClick={closeMobileMenu}
                 >
@@ -186,8 +184,8 @@ export const Navbar = () => {
                   <span>{item.label}</span>
                 </Link>
               ))}
-
-              <div className="pt-3 mt-3 border-t border-gray-200 dark:border-gray-700">
+              
+              <div className="pt-3 mt-3 border-t border-gray-200 dark:border-gray-800">
                 {isAuthenticated ? (
                   <Button
                     variant="ghost"
@@ -226,7 +224,7 @@ export const Navbar = () => {
           </div>
         )}
       </nav>
-
+      
       {/* Backdrop for mobile menu */}
       {mobileMenuOpen && (
         <div
