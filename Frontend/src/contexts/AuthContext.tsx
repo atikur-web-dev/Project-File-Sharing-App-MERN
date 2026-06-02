@@ -1,4 +1,4 @@
-// Global memory state for user to check if he is logged in or not
+// Frontend/src/contexts/AuthContext.tsx
 import { createContext } from "react";
 import type { User } from "../types";
 
