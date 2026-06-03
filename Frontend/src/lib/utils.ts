@@ -94,9 +94,12 @@ export const getInitials = (name: string): string => {
   if (parts.length === 1) {
     return parts[0].slice(0, 2).toUpperCase();
   }
+  const firstInitial = parts[0].at(0) || "";
+  const lastInitial = parts.at(-1)?.at(0) || "";
 
-  return (parts[0].at(0)! + parts.at(-1)!.at(0)!).toUpperCase();
+  return (firstInitial + lastInitial).toUpperCase();
 };
+
 
 // copy to clipboard
 export async function copyToClipboard(text: string): Promise<boolean> {
