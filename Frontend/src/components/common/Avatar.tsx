@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { cn, getInitials, stringToColor } from "../../lib/utils";
 
-interface AvatarProps { // ফিক্সড: AvatarProps
-  name?: string;
+interface AvatarProps {
+  name: string;
   src?: string;
   alt?: string;
   size?: "sm" | "md" | "lg" | "xl";
@@ -16,8 +16,8 @@ const sizeMap = {
   xl: "w-20 h-20 text-xl",
 };
 
-export const Avatar = ({ 
-  name = "",
+export const Avatar = ({
+  name,
   src,
   alt,
   size = "md",
@@ -28,8 +28,8 @@ export const Avatar = ({
     return (
       <img
         src={src}
-        alt={alt || name || "User avatar"}
-        onError={() => setImgError(true)} // if upload image failed, then text avatar will back 
+        alt={alt || name}
+        onError={() => setImgError(true)}
         className={cn(
           "rounded-full object-cover shrink-0",
           sizeMap[size],
@@ -38,10 +38,8 @@ export const Avatar = ({
       />
     );
   }
-
-  
-  const initials = getInitials(name) || "."; 
-  const bgColor = name ? stringToColor(name) : "#9ca3af"; 
+  const initials = getInitials(name);
+  const bgColor = stringToColor(name);
 
   return (
     <div
