@@ -82,7 +82,7 @@ export function stringToColor(str: string): string {
 
   const hue = Math.abs(hash) % 360;
 
-  return `hsl(${hue}, 70%, 50%)`;
+  return `hsl(${hue}, 70%, 40%)`;
 }
 
 // Function to get initial name form First letter of name for Default avatar
