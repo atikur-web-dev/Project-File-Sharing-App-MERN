@@ -32,6 +32,7 @@ export const registerApi = async (
   return extractUser(res, "Registration failed");
 };
 
+
 export const loginApi = async (
   data: LoginFormData,
 ): Promise<User> => {
