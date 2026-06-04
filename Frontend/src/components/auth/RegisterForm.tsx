@@ -24,7 +24,11 @@ const registerSchema = z.object({
     .min(1, 'Display name is required')
     .min(3, 'Display name must be at least 3 characters')
     .max(50, 'Display name cannot exceed 50 characters')
-    .trim(),
+    .trim()
+    .regex(
+      /^[a-zA-Z0-9\s\u0980-\u09FF]+$/,
+      'Special characters and emojis are not allowed'
+    ),
   email: z
     .string()
     .min(1, 'Email is required')
@@ -40,7 +44,6 @@ const registerSchema = z.object({
       'Password must contain uppercase, lowercase, number and special character'
     ),
 });
-
 interface PasswordRequirement {
   label: string;
   check: (password: string) => boolean;
