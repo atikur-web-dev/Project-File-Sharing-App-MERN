@@ -37,12 +37,14 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       className={cn(
-        // Base styles - NOW WITH LIGHT MODE COLORS
-        'rounded-xl bg-white dark:bg-gray-800', // WHITE in light mode, dark gray in dark mode
-        'shadow-sm dark:shadow-none', // subtle shadow in light mode
-        'transition-all duration-200',
+        // Base styles
+        'rounded-xl bg-white dark:bg-gray-800',
+        'transition-all duration-200 ease-in-out', // ✅ Added ease-in-out
         
-        // Border - visible in both modes
+        // Shadow - improved for dark mode
+        'shadow-sm dark:shadow-gray-900/30', // ✅ Better dark shadow
+        
+        // Border
         bordered && 'border border-gray-200 dark:border-gray-700',
         
         // Padding
@@ -50,10 +52,13 @@ export const Card: React.FC<CardProps> = ({
         
         // Interactive states
         isInteractive && [
-          'cursor-pointer',
-          'touch-manipulation',
-          hoverable && 'hover:shadow-md hover:-translate-y-0.5 hover:bg-gray-50 dark:hover:bg-gray-700/50',
-          clickable && 'active:scale-[0.99]',
+          'cursor-pointer touch-manipulation',
+          hoverable && [
+            'hover:shadow-md',
+            'hover:-translate-y-0.5',
+            'hover:bg-gray-50 dark:hover:bg-gray-700/50',
+          ],
+          clickable && 'active:scale-[0.98]', // ✅ Slightly more pronounced click effect
         ],
         
         className
@@ -61,21 +66,33 @@ export const Card: React.FC<CardProps> = ({
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       {children}
     </div>
   );
 };
 
-// Card Sub-components
-export const CardHeader: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+// Card Sub-components with improved types
+interface CardSectionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const CardHeader: React.FC<CardSectionProps> = ({ 
   children, 
   className 
 }) => {
   return (
     <div
       className={cn(
-        'mb-3 sm:mb-4 border-b border-gray-200 dark:border-gray-700 pb-3 sm:pb-4',
+        'mb-3 sm:mb-4 pb-3 sm:pb-4',
+        'border-b border-gray-200 dark:border-gray-700',
         className
       )}
     >
@@ -84,14 +101,17 @@ export const CardHeader: React.FC<{ children: React.ReactNode; className?: strin
   );
 };
 
-export const CardTitle: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+export const CardTitle: React.FC<CardSectionProps> = ({ 
   children, 
   className 
 }) => {
   return (
     <h3
       className={cn(
-        'text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white', // Dark text in light mode
+        'text-base sm:text-lg md:text-xl',
+        'font-semibold',
+        'text-gray-900 dark:text-white',
+        'tracking-tight', // ✅ Better typography
         className
       )}
     >
@@ -100,14 +120,16 @@ export const CardTitle: React.FC<{ children: React.ReactNode; className?: string
   );
 };
 
-export const CardDescription: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+export const CardDescription: React.FC<CardSectionProps> = ({ 
   children, 
   className 
 }) => {
   return (
     <p
       className={cn(
-        'text-xs sm:text-sm text-gray-500 dark:text-gray-400', // Gray text in light mode
+        'text-xs sm:text-sm',
+        'text-gray-500 dark:text-gray-400',
+        'mt-1', // ✅ Added margin-top for better spacing
         className
       )}
     >
@@ -116,21 +138,27 @@ export const CardDescription: React.FC<{ children: React.ReactNode; className?: 
   );
 };
 
-export const CardContent: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+export const CardContent: React.FC<CardSectionProps> = ({ 
   children, 
   className 
 }) => {
-  return <div className={cn('', className)}>{children}</div>;
+  return (
+    <div className={cn('', className)}>
+      {children}
+    </div>
+  );
 };
 
-export const CardFooter: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+export const CardFooter: React.FC<CardSectionProps> = ({ 
   children, 
   className 
 }) => {
   return (
     <div
       className={cn(
-        'mt-3 sm:mt-4 border-t border-gray-200 dark:border-gray-700 pt-3 sm:pt-4',
+        'mt-3 sm:mt-4 pt-3 sm:pt-4',
+        'border-t border-gray-200 dark:border-gray-700',
+        'flex flex-wrap items-center gap-2', // ✅ Better footer layout
         className
       )}
     >
