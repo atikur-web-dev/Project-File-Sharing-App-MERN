@@ -13,12 +13,11 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
   variant = 'text',
   count = 1,
 }) => {
-  const baseClass = 'animate-pulse bg-white/10 rounded';
-
+  const baseClass = 'skeleton theme-transition';
   const variants = {
-    text: 'h-4 w-full',
-    circular: 'rounded-full',
-    rectangular: 'h-24 w-full',
+    text: 'h-4 w-full rounded',
+    circular: 'h-12 w-12 rounded-full', 
+    rectangular: 'h-24 w-full rounded',
     card: 'h-48 w-full rounded-xl',
   };
 
