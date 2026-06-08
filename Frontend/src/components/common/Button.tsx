@@ -15,46 +15,46 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: cn(
-    "bg-primary-600 hover:bg-primary-700 text-white",
-    "focus:ring-primary-500",
-    "dark:bg-primary-600 dark:hover:bg-primary-700",
-    "disabled:bg-primary-400 dark:disabled:bg-primary-800",
-  ),
-  secondary: cn(
-    "bg-gray-100 hover:bg-gray-200 text-gray-900",
-    "focus:ring-gray-500",
-    "dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100",
-    "disabled:bg-gray-200 dark:disabled:bg-gray-800",
-  ),
-  outline: cn(
-    "border border-gray-300 bg-transparent text-gray-700",
-    "hover:bg-gray-50",
-    "focus:ring-gray-500",
-    "dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800",
-    "disabled:border-gray-200 dark:disabled:border-gray-700",
-  ),
-  ghost: cn(
-    "bg-transparent text-gray-700",
-    "hover:bg-gray-100",
-    "focus:ring-gray-500",
-    "dark:text-gray-300 dark:hover:bg-gray-800",
-    "disabled:text-gray-400 dark:disabled:text-gray-600",
-  ),
-  danger: cn(
-    "bg-red-600 hover:bg-red-700 text-white",
-    "focus:ring-red-500",
-    "dark:bg-red-600 dark:hover:bg-red-700",
-    "disabled:bg-red-400 dark:disabled:bg-red-800",
-  ),
+primary: cn(
+  "bg-primary-600 hover:bg-primary-700 text-white",
+  "focus:ring-primary-500",
+  "dark:bg-primary-600 dark:hover:bg-primary-700",
+  "disabled:bg-primary-400 dark:disabled:bg-primary-800",
+),
+secondary: cn(
+  "bg-gray-100 hover:bg-gray-200 text-gray-900",
+  "focus:ring-gray-500",
+  "dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100",
+  "disabled:bg-gray-200 dark:disabled:bg-gray-800",
+),
+outline: cn(
+  "border border-gray-300 bg-transparent text-gray-700",
+  "hover:bg-gray-50",
+  "focus:ring-gray-500",
+  "dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800",
+  "disabled:border-gray-200 dark:disabled:border-gray-700",
+),
+ghost: cn(
+  "bg-transparent text-gray-700",
+  "hover:bg-gray-100",
+  "focus:ring-gray-500",
+  "dark:text-gray-300 dark:hover:bg-gray-800",
+  "disabled:text-gray-400 dark:disabled:text-gray-600",
+),
+danger: cn(
+  "bg-red-600 hover:bg-red-700 text-white",
+  "focus:ring-red-500",
+  "dark:bg-red-600 dark:hover:bg-red-700",
+  "disabled:bg-red-400 dark:disabled:bg-red-800",
+),
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
   xs: "h-7 px-2.5 text-xs gap-1 rounded-md",
   sm: "h-8 px-3 text-xs gap-1.5 rounded-md",
-  md: "h-10 px-4 text-sm gap-2 rounded-lg",
-  lg: "h-12 px-6 text-base gap-2.5 rounded-lg",
-  xl: "h-14 px-8 text-lg gap-3 rounded-xl",
+md: "h-10 px-4 text-sm gap-2 rounded-lg",
+lg: "h-12 px-6 text-base gap-2.5 rounded-lg",
+xl: "h-14 px-8 text-lg gap-3 rounded-xl",
 };
 
 const LoadingSpinner = ({ size }: { size: ButtonSize }) => {
@@ -153,3 +153,4 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = "Button";
+
