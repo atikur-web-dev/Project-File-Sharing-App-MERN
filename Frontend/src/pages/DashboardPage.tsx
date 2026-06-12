@@ -1,47 +1,42 @@
 // src/pages/DashboardPage.tsx
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import { FolderIcon } from '@heroicons/react/24/outline';
-import { Navbar } from '../components/layout/Navbar';
-import { FileUpload } from '../components/files/FileUpload';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { DashboardLayout } from '../components/layout/DashboardLayout';
 import { FileList } from '../components/files/FileList';
 import { Pagination } from '../components/files/Pagination';
-import { SearchBar } from '../components/dashboard/SearchBar';
 import { SortDropdown, type SortField, type SortOrder } from '../components/dashboard/SortDropdown';
-import { Card } from '../components/common/Card';
-import { Button } from '../components/common/Button';
 import { LoadingSkeleton } from '../components/common/LoadingSkeleton';
+import { MaterialIcon } from '../components/common/MaterialIcon';
 import { useAuth } from '../hooks/useAuth';
 import { useDebounce } from '../hooks/useDebounce';
 import { getUserFilesApi, deleteFileApi } from '../api/fileApi';
 import { showToast } from '../components/common/Toast';
-import type { FileType, FileUploadResponse } from '../types';
+import { ROUTES } from '../lib/constants';
+import type { FileType } from '../types';
 
 const LIMIT = 12;
 
 const DashboardPage = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isSharedTab = searchParams.get('tab') === 'shared';
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 
   const [files, setFiles] = useState<FileType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [refreshKey, setRefreshKey] = useState(0);
-
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearch = useDebounce(searchTerm, 400);
-
   const [sortBy, setSortBy] = useState<SortField>('createdAt');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
-
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalFiles, setTotalFiles] = useState(0);
 
-  // useEffect(() => {
-  //   if (!authLoading && !isAuthenticated) {
-  //     navigate('/login');
-  //   }
-  // }, [authLoading, isAuthenticated, navigate]);
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      navigate(ROUTES.LOGIN);
+    }
+  }, [authLoading, isAuthenticated, navigate]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -56,7 +51,6 @@ const DashboardPage = () => {
           sortBy,
           sortOrder,
         });
-
         setFiles(response.files);
         setTotalPages(response.pagination.totalPages);
         setTotalFiles(response.pagination.totalFiles);
@@ -68,16 +62,7 @@ const DashboardPage = () => {
     };
 
     fetchFiles();
-  }, [isAuthenticated, currentPage, debouncedSearch, sortBy, sortOrder, refreshKey]);
-
-  const handleUploadSuccess = (uploadedFiles: FileUploadResponse[]) => {
-    showToast.success(
-      `Successfully uploaded ${uploadedFiles.length} file${uploadedFiles.length > 1 ? 's' : ''}`
-    );
-    setRefreshKey((prev) => prev + 1);
-    setSearchTerm('');
-    setCurrentPage(1);
-  };
+  }, [isAuthenticated, currentPage, debouncedSearch, sortBy, sortOrder]);
 
   const handleDeleteFile = async (uuid: string) => {
     try {
@@ -97,121 +82,110 @@ const DashboardPage = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
-        <Navbar />
-        <div className="flex items-center justify-center h-[calc(100vh-64px)]">
-          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+      <DashboardLayout activeNav="files" showFooter={false}>
+        <div className="flex h-screen items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-outline-variant border-t-primary" />
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
-      <Navbar />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {isLoading ? (
-          <>
-            <div className="mb-6 sm:mb-8">
-              <LoadingSkeleton variant="text" className="w-48 h-8 mb-2" />
-              <LoadingSkeleton variant="text" className="w-64 h-4" />
-            </div>
-            <LoadingSkeleton variant="card" className="mb-8 h-48" />
+  const firstName = user?.displayName?.split(' ')[0] || 'there';
 
-            <Card className="backdrop-blur-xl bg-white/5 border-white/10">
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <div className="flex-1">
-                  <LoadingSkeleton variant="text" className="h-10" />
-                </div>
-                <div className="w-40">
-                  <LoadingSkeleton variant="text" className="h-10" />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {[...Array(8)].map((_, i) => (
-                  <LoadingSkeleton key={i} variant="card" />
-                ))}
-              </div>
-            </Card>
-          </>
+  return (
+    <DashboardLayout activeNav={isSharedTab ? 'shared' : 'files'} compactFooter>
+      <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-outline-variant bg-surface-bright px-xl">
+        <div className="flex flex-1 items-center gap-lg">
+          <h1 className="whitespace-nowrap text-headline-md text-on-surface">
+            {isSharedTab ? 'Shared Files' : 'My Files'}
+          </h1>
+          <div className="relative max-w-md w-full">
+            <MaterialIcon
+              name="search"
+              size={20}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+            />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              placeholder="Search resources..."
+              className="w-full rounded-lg border border-outline-variant bg-surface-container-low py-1.5 pl-10 pr-4 font-mono text-body-sm focus:border-primary focus:outline-none"
+            />
+          </div>
+        </div>
+        <div className="flex items-center gap-md">
+          <SortDropdown
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            onSortChange={(field, order) => {
+              setSortBy(field);
+              setSortOrder(order);
+              setCurrentPage(1);
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => navigate(ROUTES.UPLOAD)}
+            className="flex items-center gap-1 rounded-lg border border-outline-variant bg-surface-container-low px-3 py-1.5 text-body-sm text-on-surface-variant transition-all hover:text-primary"
+          >
+            <MaterialIcon name="upload_file" size={18} />
+            Upload
+          </button>
+        </div>
+      </header>
+
+      <div className="flex-1 overflow-y-auto p-xl">
+        {isLoading ? (
+          <div className="grid grid-cols-1 gap-lg sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {[...Array(8)].map((_, i) => (
+              <LoadingSkeleton key={i} variant="card" className="h-48" />
+            ))}
+          </div>
         ) : (
           <>
-            <div className="mb-6 sm:mb-8">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
-                Welcome back, {user?.displayName?.split(' ')[0]}
-              </h1>
-              <p className="text-sm sm:text-base text-slate-400 mt-1">
-                Manage and share your files
+            {!isSharedTab && (
+              <div className="mb-xl">
+                <h2 className="text-headline-lg text-primary">Welcome back, {firstName}</h2>
+                <p className="text-body-md text-on-surface-variant">
+                  {totalFiles} {totalFiles === 1 ? 'file' : 'files'} in your workspace
+                </p>
+              </div>
+            )}
+
+            {debouncedSearch && (
+              <p className="mb-md text-body-sm text-on-surface-variant">
+                Results for &quot;{debouncedSearch}&quot;
+                <button
+                  type="button"
+                  onClick={() => { setSearchTerm(''); setCurrentPage(1); }}
+                  className="ml-2 text-secondary hover:underline"
+                >
+                  Clear
+                </button>
               </p>
-            </div>
+            )}
 
-            <div className="mb-6 sm:mb-8">
-              <FileUpload onUploadSuccess={handleUploadSuccess} />
-            </div>
+            <FileList files={files} isLoading={false} onDelete={handleDeleteFile} />
 
-            <Card className="backdrop-blur-xl bg-white/5 border-white/10">
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <div className="flex-1">
-                  <SearchBar
-                    value={searchTerm}
-                    onChange={setSearchTerm}
-                    placeholder="Search by file name..."
-                  />
-                </div>
-                <SortDropdown
-                  sortBy={sortBy}
-                  sortOrder={sortOrder}
-                  onSortChange={(field, order) => {
-                    setSortBy(field);
-                    setSortOrder(order);
-                    setCurrentPage(1);
-                  }}
+            {files.length > 0 && (
+              <div className="mt-8">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={totalFiles}
+                  itemsPerPage={LIMIT}
+                  onPageChange={handlePageChange}
                 />
               </div>
-
-              {debouncedSearch && (
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="text-sm text-slate-400">
-                    Search results for: &quot;{debouncedSearch}&quot;
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setSearchTerm('');
-                      setCurrentPage(1);
-                    }}
-                  >
-                    Clear
-                  </Button>
-                </div>
-              )}
-
-              {files.length > 0 && (
-                <p className="text-sm text-slate-400 mb-4">
-                  <FolderIcon className="w-4 h-4 inline mr-1" />
-                  {totalFiles} {totalFiles === 1 ? 'file' : 'files'} total
-                </p>
-              )}
-
-              <FileList files={files} isLoading={false} onDelete={handleDeleteFile} />
-
-              {files.length > 0 && (
-                <div className="mt-6 sm:mt-8">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    totalItems={totalFiles}
-                    itemsPerPage={LIMIT}
-                    onPageChange={handlePageChange}
-                  />
-                </div>
-              )}
-            </Card>
+            )}
           </>
         )}
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

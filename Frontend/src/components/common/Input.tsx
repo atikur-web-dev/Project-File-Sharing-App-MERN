@@ -45,13 +45,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <label
             htmlFor={inputId}
             className={cn(
-              "mb-1.5 text-xs sm:text-sm font-medium",
-              "text-gray-700 dark:text-gray-300",
+              "mb-xs text-label-md text-on-surface-variant font-mono",
               disabled && "opacity-50",
             )}
           >
             {label}
-            {required && <span className="ml-1 text-red-500">*</span>}
+            {required && <span className="ml-1 text-error">*</span>}
           </label>
         )}
 
@@ -70,26 +69,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             required={required}
             className={cn(
-              "flex h-9 sm:h-10 md:h-11 w-full rounded-lg border",
-              "bg-white text-gray-900",
-              "px-2 sm:px-3 py-1.5 sm:py-2",
-              "text-sm sm:text-base",
-              "placeholder:text-gray-400 placeholder:text-xs sm:placeholder:text-sm",
-              "focus:outline-none focus:ring-2 focus:ring-offset-0",
+              "flex h-10 w-full rounded-lg border",
+              "bg-surface-bright text-on-surface",
+              "px-md py-sm text-body-sm font-mono",
+              "placeholder:text-outline",
+              "focus:outline-none focus:ring-0 focus:border-primary",
               "disabled:cursor-not-allowed disabled:opacity-50",
               "transition-colors duration-200",
-              "dark:bg-gray-800 dark:text-white dark:placeholder-gray-500",
-              leftIcon && "pl-8 sm:pl-10",
-              rightIcon && "pr-8 sm:pr-10",
+              leftIcon && "pl-10",
+              rightIcon && "pr-10",
               hasError
-                ? cn(
-                    "border-red-500 focus:border-red-500 focus:ring-red-500",
-                    "dark:border-red-700",
-                  )
-                : cn(
-                    "border-gray-300 focus:border-primary-500 focus:ring-primary-500",
-                    "dark:border-gray-600",
-                  ),
+                ? "border-error focus:border-error"
+                : "border-outline-variant",
               className,
             )}
             {...props}

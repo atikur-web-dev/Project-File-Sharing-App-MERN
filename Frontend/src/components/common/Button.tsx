@@ -15,38 +15,33 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-primary: cn(
-  "bg-primary-600 hover:bg-primary-700 text-white",
-  "focus:ring-primary-500",
-  "dark:bg-primary-600 dark:hover:bg-primary-700",
-  "disabled:bg-primary-400 dark:disabled:bg-primary-800",
-),
-secondary: cn(
-  "bg-gray-100 hover:bg-gray-200 text-gray-900",
-  "focus:ring-gray-500",
-  "dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100",
-  "disabled:bg-gray-200 dark:disabled:bg-gray-800",
-),
-outline: cn(
-  "border border-gray-300 bg-transparent text-gray-700",
-  "hover:bg-gray-50",
-  "focus:ring-gray-500",
-  "dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800",
-  "disabled:border-gray-200 dark:disabled:border-gray-700",
-),
-ghost: cn(
-  "bg-transparent text-gray-700",
-  "hover:bg-gray-100",
-  "focus:ring-gray-500",
-  "dark:text-gray-300 dark:hover:bg-gray-800",
-  "disabled:text-gray-400 dark:disabled:text-gray-600",
-),
-danger: cn(
-  "bg-red-600 hover:bg-red-700 text-white",
-  "focus:ring-red-500",
-  "dark:bg-red-600 dark:hover:bg-red-700",
-  "disabled:bg-red-400 dark:disabled:bg-red-800",
-),
+  primary: cn(
+    "bg-primary text-on-primary hover:opacity-90",
+    "focus:ring-primary",
+    "disabled:opacity-50",
+  ),
+  secondary: cn(
+    "bg-secondary text-on-secondary hover:opacity-90",
+    "focus:ring-secondary",
+    "disabled:opacity-50",
+  ),
+  outline: cn(
+    "border border-outline-variant bg-surface-container-lowest text-primary",
+    "hover:bg-surface-container-low",
+    "focus:ring-primary",
+    "disabled:opacity-50",
+  ),
+  ghost: cn(
+    "bg-transparent text-on-surface-variant",
+    "hover:bg-surface-container-high hover:text-primary",
+    "focus:ring-primary",
+    "disabled:opacity-50",
+  ),
+  danger: cn(
+    "bg-error text-on-error hover:opacity-90",
+    "focus:ring-error",
+    "disabled:opacity-50",
+  ),
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

@@ -1,16 +1,10 @@
 // src/components/files/FileCard.tsx
 import { useState } from 'react';
-import {
-  TrashIcon,
-  ArrowDownTrayIcon,
-  EyeIcon,
-  LinkIcon,
-} from '@heroicons/react/24/outline';
-import { Card } from '../common/Card';
 import { ConfirmModal } from '../common/Modal';
-import { FileIcon } from '../common/FileIcon';
+import { MaterialIcon } from '../common/MaterialIcon';
 import { formatFileSize, formatRelativetime, copyToClipboard } from '../../lib/utils';
 import { getFileDownloadUrl, getFileViewUrl } from '../../api/fileApi';
+import { showToast } from '../common/Toast';
 import type { FileType } from '../../types';
 
 interface FileCardProps {
@@ -18,13 +12,33 @@ interface FileCardProps {
   onDelete: (uuid: string) => void;
 }
 
+const getExtension = (mimetype: string, name: string): string => {
+  const fromName = name.split('.').pop()?.toUpperCase();
+  if (fromName && fromName.length <= 5) return fromName;
+  return mimetype.split('/')[1]?.toUpperCase() || 'FILE';
+};
+
+const getIconName = (mimetype: string): string => {
+  if (mimetype.startsWith('image/')) return 'image';
+  if (mimetype.includes('pdf')) return 'picture_as_pdf';
+  if (mimetype.includes('zip')) return 'folder_zip';
+  if (mimetype.includes('csv') || mimetype.includes('sheet')) return 'table_chart';
+  if (mimetype.includes('javascript') || mimetype.includes('typescript')) return 'code';
+  if (mimetype.includes('css')) return 'css';
+  return 'description';
+};
+
 export const FileCard = ({ file, onDelete }: FileCardProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const ext = getExtension(file.mimetype, file.originalName);
+  const iconName = getIconName(file.mimetype);
+  const isImage = file.mimetype.startsWith('image/');
 
   const handleCopyLink = async () => {
     const shareUrl = `${window.location.origin}/share/${file.uuid}`;
     await copyToClipboard(shareUrl);
+    showToast.success('Share link copied');
   };
 
   const handleDownload = () => {
@@ -47,69 +61,76 @@ export const FileCard = ({ file, onDelete }: FileCardProps) => {
 
   return (
     <>
-      <Card hoverable className="h-full flex flex-col">
-        <div className="flex items-start gap-3">
-          <div className="shrink-0">
-            <FileIcon mimetype={file.mimetype} size="md" />
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <h4
-              className="font-medium text-gray-900 dark:text-white truncate"
-              title={file.originalName}
-            >
-              {file.originalName}
-            </h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-              {formatFileSize(file.size)}
-            </p>
+      <div className="file-card group relative cursor-pointer rounded-xl border border-outline-variant bg-white p-md transition-all hover:border-primary/40 hover:shadow-sm">
+        <div className="mb-md flex items-start justify-between">
+          {isImage ? (
+            <div className="relative flex h-32 w-full items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 bg-surface-container-low">
+              <img
+                src={getFileViewUrl(file.uuid)}
+                alt={file.originalName}
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </div>
+          ) : (
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-surface-container-low text-primary">
+              <MaterialIcon name={iconName} size={28} />
+            </div>
+          )}
+          <div className="absolute top-md right-md opacity-0 transition-all group-hover:opacity-100">
+            <div className="flex gap-0.5 rounded bg-white/90 p-0.5 shadow-sm backdrop-blur">
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); handleCopyLink(); }}
+                className="rounded p-1 hover:bg-surface-container-high"
+                title="Copy link"
+              >
+                <MaterialIcon name="link" size={16} className="text-on-surface-variant" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); handlePreview(); }}
+                className="rounded p-1 hover:bg-surface-container-high"
+                title="Preview"
+              >
+                <MaterialIcon name="visibility" size={16} className="text-on-surface-variant" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); handleDownload(); }}
+                className="rounded p-1 hover:bg-surface-container-high"
+                title="Download"
+              >
+                <MaterialIcon name="download" size={16} className="text-on-surface-variant" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setShowDeleteModal(true); }}
+                className="rounded p-1 hover:bg-error-container/30"
+                title="Delete"
+              >
+                <MaterialIcon name="delete" size={16} className="text-error" />
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-          <p>Uploaded {formatRelativetime(file.uploadedAt)}</p>
-          <p className="truncate mt-0.5">
-            {file.mimetype.split('/')[1]?.toUpperCase() || file.mimetype}
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
-          <div className="flex items-center gap-1">
-            <button
-              onClick={handleCopyLink}
-              className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              title="Copy share link"
-            >
-              <LinkIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-            </button>
-
-            <button
-              onClick={handlePreview}
-              className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              title="Preview"
-            >
-              <EyeIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-            </button>
-
-            <button
-              onClick={handleDownload}
-              className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              title="Download"
-            >
-              <ArrowDownTrayIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-            </button>
+        <div>
+          <h3 className="mb-xs truncate text-body-md font-bold text-on-surface" title={file.originalName}>
+            {file.originalName}
+          </h3>
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-label-sm text-on-surface-variant">
+              {formatFileSize(file.size)} • {formatRelativetime(file.uploadedAt)}
+            </span>
+            <span className="rounded bg-surface-container-highest px-1.5 py-0.5 text-[9px] font-bold text-on-surface-variant">
+              {ext}
+            </span>
           </div>
-
-          <button
-            onClick={() => setShowDeleteModal(true)}
-            disabled={isDeleting}
-            className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
-            title="Delete"
-          >
-            <TrashIcon className="w-4 h-4 text-red-500" />
-          </button>
         </div>
-      </Card>
+      </div>
 
       <ConfirmModal
         isOpen={showDeleteModal}

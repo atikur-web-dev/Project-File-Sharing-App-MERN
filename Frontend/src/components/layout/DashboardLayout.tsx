@@ -1,18 +1,31 @@
-// src/layouts/DashboardLayout.tsx
-import { Outlet } from 'react-router-dom';
-import { Navbar } from '../layout/Navbar';
+import type { ReactNode } from 'react';
+import { Sidebar, type SidebarNavId } from './Sidebar';
+import { AppFooter } from './AppFooter';
 
-const DashboardLayout = () => {
-  return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
-      <Navbar />
-      <div className="flex">
-        <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <Outlet />
-        </main>
-      </div>
+interface DashboardLayoutProps {
+  children: ReactNode;
+  activeNav?: SidebarNavId;
+  showFooter?: boolean;
+  compactFooter?: boolean;
+  className?: string;
+}
+
+export const DashboardLayout = ({
+  children,
+  activeNav = 'files',
+  showFooter = true,
+  compactFooter = false,
+  className = '',
+}: DashboardLayoutProps) => (
+  <div className={`flex min-h-screen bg-background ${className}`}>
+    <Sidebar activeNav={activeNav} />
+    <div className="ml-60 flex min-h-screen min-w-0 flex-1 flex-col">
+      {children}
+      {showFooter && (
+        <AppFooter compact={compactFooter} className={compactFooter ? 'mt-auto' : 'px-margin-desktop'} />
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 export default DashboardLayout;

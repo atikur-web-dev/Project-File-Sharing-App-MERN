@@ -93,9 +93,13 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   DASHBOARD: "/dashboard",
+  UPLOAD: "/upload",
   PROFILE: "/profile",
   ANALYTICS: "/analytics",
   SHARE: "/share",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
+  VERIFY_EMAIL: "/verify-email",
   PREVIEW: "/preview",
   NOT_FOUND: "/404",
 } as const;

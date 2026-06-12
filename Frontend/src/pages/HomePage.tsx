@@ -1,245 +1,180 @@
 // src/pages/HomePage.tsx
 import { useNavigate } from 'react-router-dom';
-import {
-  CloudArrowUpIcon,
-  ShieldCheckIcon,
-  DocumentIcon,
-  LinkIcon,
-  ChartBarIcon,
-  GlobeAltIcon,
-  ArrowRightIcon,
-} from '@heroicons/react/24/outline';
-import { Button } from '../components/common/Button';
 import { useAuth } from '../hooks/useAuth';
+import { MaterialIcon } from '../components/common/MaterialIcon';
+import { AppFooter } from '../components/layout/AppFooter';
+import { ROUTES } from '../lib/constants';
 
 const FEATURES = [
   {
-    icon: CloudArrowUpIcon,
+    icon: 'terminal',
     title: 'Easy Upload',
-    description: 'Drag and drop files or browse from your device. Support for all file types.',
-    color: 'text-blue-400',
-    bgColor: 'bg-blue-500/10',
+    description: 'Drag and drop files or browse from your device. Support for all common file types.',
+    wide: true,
   },
   {
-    icon: ShieldCheckIcon,
+    icon: 'sync',
+    title: 'Real-time Access',
+    description: 'Access your files instantly from any device, anywhere in the world.',
+    wide: false,
+  },
+  {
+    icon: 'lock',
     title: 'Secure Storage',
-    description: 'End-to-end encryption keeps your files safe. Only you control access.',
-    color: 'text-green-400',
-    bgColor: 'bg-green-500/10',
+    description: 'Your files are stored securely with controlled access and share links.',
+    wide: false,
   },
   {
-    icon: LinkIcon,
+    icon: 'group',
     title: 'Share Instantly',
-    description: 'Generate shareable links in one click. No registration required for recipients.',
-    color: 'text-purple-400',
-    bgColor: 'bg-purple-500/10',
+    description: 'Generate shareable links in one click. Track downloads with analytics.',
+    wide: true,
   },
-  {
-    icon: ChartBarIcon,
-    title: 'Download Analytics',
-    description: 'Track who downloads your files with detailed analytics dashboard.',
-    color: 'text-yellow-400',
-    bgColor: 'bg-yellow-500/10',
-  },
-  {
-    icon: DocumentIcon,
-    title: 'File Management',
-    description: 'Organize, search, and manage all your files from a single dashboard.',
-    color: 'text-pink-400',
-    bgColor: 'bg-pink-500/10',
-  },
-  {
-    icon: GlobeAltIcon,
-    title: 'Access Anywhere',
-    description: 'Access your files from any device, anywhere in the world.',
-    color: 'text-cyan-400',
-    bgColor: 'bg-cyan-500/10',
-  },
+];
+
+const PLANS = [
+  { name: 'Free', price: '$0', features: ['5GB Storage', '10 Transfers / Day', 'Community Support'], cta: 'Get Started', highlight: false },
+  { name: 'Pro', price: '$15', features: ['500GB Storage', 'Unlimited Transfers', 'Priority Support', 'API Access'], cta: 'Start Trial', highlight: true },
+  { name: 'Enterprise', price: 'Custom', features: ['Unlimited Storage', 'SAML/SSO', 'Custom Contracts', '24/7 Support'], cta: 'Contact Sales', highlight: false },
 ];
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
+  const goAuth = (path: string) => navigate(isAuthenticated ? ROUTES.DASHBOARD : path);
+
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
-      {/* Navbar */}
-      <nav className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-linear-to-b from-primary-600 to-accent-600 rounded-lg flex items-center justify-center">
-                <CloudArrowUpIcon className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">FileShare</span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              {isAuthenticated ? (
-                <Button variant="primary" onClick={() => navigate('/dashboard')}>
-                  Go to Dashboard
-                  <ArrowRightIcon className="w-4 h-4 ml-2" />
-                </Button>
-              ) : (
-                <>
-                  <Button variant="ghost" onClick={() => navigate('/login')}>
-                    Sign In
-                  </Button>
-                  <Button variant="primary" onClick={() => navigate('/register')}>
-                    Get Started
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
+    <div className="min-h-screen bg-surface">
+      <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-outline-variant bg-surface px-margin-desktop">
+        <div className="flex items-center gap-xl">
+          <span className="text-headline-md font-bold text-primary">DevShare</span>
+          <nav className="hidden gap-lg md:flex">
+            <a href="#features" className="border-b-2 border-secondary text-body-md font-bold text-primary">Features</a>
+            <a href="#pricing" className="text-body-md text-on-surface-variant transition-colors hover:text-primary">Pricing</a>
+          </nav>
         </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute -top-1/2 -right-1/4 w-200 h-20 bg-primary-600/20 rounded-full blur-[128px]" />
-          <div className="absolute -bottom-1/2 -left-1/4 w-200 h-20 bg-accent-600/20 rounded-full blur-[128px]" />
+        <div className="flex items-center gap-md">
+          {!isAuthenticated ? (
+            <>
+              <button type="button" onClick={() => navigate(ROUTES.LOGIN)} className="px-md py-sm text-body-md font-medium text-on-surface-variant hover:text-primary">
+                Login
+              </button>
+              <button type="button" onClick={() => navigate(ROUTES.REGISTER)} className="rounded-lg bg-primary px-lg py-sm text-body-md font-medium text-on-primary hover:opacity-90">
+                Get Started
+              </button>
+            </>
+          ) : (
+            <button type="button" onClick={() => navigate(ROUTES.DASHBOARD)} className="rounded-lg bg-primary px-lg py-sm text-body-md font-medium text-on-primary hover:opacity-90">
+              Dashboard
+            </button>
+          )}
         </div>
+      </header>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              Secure File Sharing
-              <span className="block text-transparent bg-clip-text bg-linear-to-r from-primary-400 to-accent-400">
-                Made Simple
-              </span>
+      <main>
+        <section className="relative overflow-hidden px-margin-desktop pb-24 pt-32">
+          <div className="relative z-10 mx-auto max-w-4xl text-center">
+            <div className="mb-lg inline-flex items-center gap-sm rounded-full border border-outline-variant bg-surface-container-low px-sm py-xs">
+              <MaterialIcon name="verified_user" size={16} className="text-secondary" />
+              <span className="font-mono text-label-md">Secure File Sharing Platform</span>
+            </div>
+            <h1 className="mx-auto mb-lg max-w-3xl text-display leading-tight tracking-tight text-primary">
+              The developer&apos;s vault for secure file sharing.
             </h1>
-
-            <p className="text-lg sm:text-xl text-slate-400 mt-6 max-w-2xl mx-auto">
-              Upload, store, and share your files with enterprise-grade security.
-              Get detailed analytics and control who accesses your content.
+            <p className="mx-auto mb-xl max-w-2xl text-body-lg text-on-surface-variant">
+              Built for teams who treat their assets like their code. Upload, share, and track downloads with precision.
             </p>
+            <div className="flex flex-col items-center justify-center gap-md md:flex-row">
+              <button type="button" onClick={() => goAuth(ROUTES.REGISTER)} className="w-full rounded-lg bg-primary px-xl py-md font-bold text-on-primary transition-transform active:scale-95 md:w-auto">
+                Start for free
+              </button>
+              <button type="button" onClick={() => goAuth(ROUTES.LOGIN)} className="w-full rounded-lg border border-outline-variant bg-surface-container-high px-xl py-md font-mono text-label-md md:w-auto">
+                Sign in to your account
+              </button>
+            </div>
+          </div>
+          <div className="absolute inset-0 -z-10 opacity-5">
+            <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(#111827 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+          </div>
+        </section>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-              {isAuthenticated ? (
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={() => navigate('/dashboard')}
+        <section className="px-margin-desktop py-24" id="features">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-xl">
+              <h2 className="mb-sm text-headline-lg text-primary">Engineered for Precision</h2>
+              <p className="text-body-md text-on-surface-variant">Everything you need, nothing you don&apos;t.</p>
+            </div>
+            <div className="grid grid-cols-12 gap-gutter">
+              {FEATURES.map((f, i) => (
+                <div
+                  key={i}
+                  className={`bento-item rounded-xl ${f.wide ? 'col-span-12 md:col-span-7' : 'col-span-12 md:col-span-5'} min-h-[240px] flex flex-col justify-center ${!f.wide ? 'bg-surface-container-low' : ''}`}
                 >
-                  Go to Dashboard
-                  <ArrowRightIcon className="w-5 h-5 ml-2" />
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={() => navigate('/register')}
-                  >
-                    Start Free Trial
-                    <ArrowRightIcon className="w-5 h-5 ml-2" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => navigate('/login')}
-                    className="border-white/20 text-white hover:bg-white/10"
-                  >
-                    Sign In
-                  </Button>
-                </>
-              )}
-            </div>
-
-            <p className="text-sm text-slate-500 mt-4">
-              No credit card required. Free forever plan.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white">
-              Everything You Need
-            </h2>
-            <p className="text-lg text-slate-400 mt-4">
-              Powerful features to manage and share your files
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {FEATURES.map((feature, index) => (
-              <div
-                key={index}
-                className="backdrop-blur-xl bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all hover:-translate-y-1"
-              >
-                <div className={`w-12 h-12 ${feature.bgColor} rounded-xl flex items-center justify-center mb-4`}>
-                  <feature.icon className={`w-6 h-6 ${feature.color}`} />
+                  <MaterialIcon name={f.icon} size={32} className="mb-md text-primary" />
+                  <h3 className="mb-sm text-headline-md text-primary">{f.title}</h3>
+                  <p className="text-on-surface-variant">{f.description}</p>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 sm:py-24">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="backdrop-blur-xl bg-linear-to-r from-primary-600/20 to-accent-600/20 rounded-3xl p-8 sm:p-12 border border-white/10 text-center">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
-              Ready to get started?
-            </h2>
-            <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of users who trust FileShare for secure file storage and sharing.
-            </p>
-
-            {isAuthenticated ? (
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={() => navigate('/dashboard')}
-              >
-                Go to Dashboard
-                <ArrowRightIcon className="w-5 h-5 ml-2" />
-              </Button>
-            ) : (
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={() => navigate('/register')}
-              >
-                Create Free Account
-                <ArrowRightIcon className="w-5 h-5 ml-2" />
-              </Button>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-linear-to-br from-primary-600 to-accent-600 rounded flex items-center justify-center">
-                <CloudArrowUpIcon className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-white font-medium">FileShare</span>
-            </div>
-
-            <p className="text-sm text-slate-500">
-              &copy; {new Date().getFullYear()} FileShare. All rights reserved.
-            </p>
-
-            <div className="flex gap-6">
-              <a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">Terms</a>
-              <a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">Contact</a>
+              ))}
             </div>
           </div>
-        </div>
+        </section>
+
+        <section className="border-y border-outline-variant bg-surface-container-low px-margin-desktop py-24" id="pricing">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-24 text-center">
+              <h2 className="mb-md text-headline-lg text-primary">Simple, transparent pricing.</h2>
+              <p className="text-on-surface-variant">No hidden fees. Scale as you grow.</p>
+            </div>
+            <div className="grid grid-cols-1 gap-lg md:grid-cols-3">
+              {PLANS.map((plan) => (
+                <div
+                  key={plan.name}
+                  className={`flex h-full flex-col rounded-xl border p-xl ${plan.highlight ? 'border-2 border-primary' : 'border-outline-variant bg-white'}`}
+                >
+                  <div className="mb-xl">
+                    <h3 className="mb-sm text-headline-md text-primary">{plan.name}</h3>
+                    <div className="flex items-baseline gap-xs">
+                      <span className="text-display font-display">{plan.price}</span>
+                      {plan.price !== 'Custom' && <span className="text-on-surface-variant">/mo</span>}
+                    </div>
+                  </div>
+                  <ul className="mb-auto space-y-md pb-xl">
+                    {plan.features.map((feat) => (
+                      <li key={feat} className="flex items-center gap-sm text-body-md">
+                        <MaterialIcon name="check" size={18} className="text-secondary" />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    onClick={() => goAuth(ROUTES.REGISTER)}
+                    className={`w-full rounded-lg py-sm font-medium ${plan.highlight ? 'bg-primary text-on-primary hover:opacity-90' : 'border border-primary text-primary hover:bg-surface-container-low'}`}
+                  >
+                    {plan.cta}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-primary px-margin-desktop py-32 text-on-primary">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="mb-lg text-display">Ready to secure your assets?</h2>
+            <p className="mb-xl text-body-lg opacity-80">
+              Join developers who trust DevShare for mission-critical file management.
+            </p>
+            <button type="button" onClick={() => goAuth(ROUTES.REGISTER)} className="rounded-lg bg-white px-xl py-md font-bold text-primary hover:bg-neutral-100">
+              Create Free Account
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-surface-container-highest px-margin-desktop">
+        <AppFooter />
       </footer>
     </div>
   );

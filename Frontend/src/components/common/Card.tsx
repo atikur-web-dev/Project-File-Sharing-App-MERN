@@ -37,17 +37,14 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       className={cn(
-        "rounded-xl bg-white dark:bg-gray-800",
+        "rounded-lg bg-surface-container-lowest",
         "transition-all duration-200 ease-in-out",
-        "shadow-sm dark:shadow-gray-900/30",
-        bordered && "border border-gray-200 dark:border-gray-700",
+        bordered && "border border-outline-variant",
         paddingStyles[padding],
         isInteractive && [
           "cursor-pointer touch-manipulation",
           hoverable && [
-            "hover:shadow-md",
-            "hover:-translate-y-0.5",
-            "hover:bg-gray-50 dark:hover:bg-gray-700/50",
+            "hover:border-primary/40 hover:shadow-sm",
           ],
           clickable && "active:scale-[0.98]",
         ],

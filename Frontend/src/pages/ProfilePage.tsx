@@ -1,26 +1,21 @@
 // src/pages/ProfilePage.tsx
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserCircleIcon, KeyIcon, CalendarIcon, IdentificationIcon } from '@heroicons/react/24/outline';
-import { Navbar } from '../components/layout/Navbar';
+import { DashboardLayout } from '../components/layout/DashboardLayout';
 import { ProfileForm } from '../components/profile/ProfileForm';
 import { ChangePasswordForm } from '../components/profile/ChangePasswordForm';
-import { Card } from '../components/common/Card';
+import { MaterialIcon } from '../components/common/MaterialIcon';
 import { useAuth } from '../hooks/useAuth';
 import { formatDate } from '../lib/utils';
+import { ROUTES } from '../lib/constants';
 import type { User } from '../types';
-
-type ActiveTab = 'profile' | 'security';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const { user, setUser, isAuthenticated, isLoading: authLoading } = useAuth();
-  const [activeTab, setActiveTab] = useState<ActiveTab>('profile');
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      navigate('/login');
-    }
+    if (!authLoading && !isAuthenticated) navigate(ROUTES.LOGIN);
   }, [authLoading, isAuthenticated, navigate]);
 
   const handleProfileUpdate = (updatedUser: User) => {
@@ -29,94 +24,62 @@ const ProfilePage = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
-        <Navbar />
-        <div className="flex items-center justify-center h-[calc(100vh-64px)]">
-          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+      <DashboardLayout activeNav="settings" showFooter={false}>
+        <div className="flex h-screen items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-outline-variant border-t-primary" />
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
+  const initials = user?.displayName
+    ?.split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase() || 'U';
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
-      <Navbar />
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
-            Account Settings
-          </h1>
-          <p className="text-sm sm:text-base text-slate-400 mt-1">
-            Manage your profile and security settings
+    <DashboardLayout activeNav="settings">
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-surface/80 px-margin-desktop py-lg backdrop-blur-md">
+        <div>
+          <h2 className="text-headline-lg text-primary">Account Settings</h2>
+          <p className="mt-xs text-body-md text-on-surface-variant">
+            Manage your personal information and security preferences.
           </p>
         </div>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
-            <Card className="backdrop-blur-xl bg-white/5 border-white/10">
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto bg-linear-to-br from-primary-500 to-accent-600 rounded-full flex items-center justify-center">
-                  <UserCircleIcon className="w-12 h-12 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-white mt-4">{user?.displayName}</h3>
-                <p className="text-sm text-slate-400">{user?.email}</p>
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-white/10 space-y-3">
-                <div className="flex items-center gap-3 text-sm">
-                  <CalendarIcon className="w-4 h-4 text-slate-400 shrink-0" />
-                  <span className="text-slate-400">Member since</span>
-                  <span className="text-white ml-auto">
-                    {user?.createdAt ? formatDate(user.createdAt, 'short') : 'Recently'}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 text-sm">
-                  <IdentificationIcon className="w-4 h-4 text-slate-400 shrink-0" />
-                  <span className="text-slate-400">Account ID</span>
-                  <span className="text-white ml-auto font-mono text-xs truncate max-w-30">
-                    {user?._id}
-                  </span>
-                </div>
-              </div>
-            </Card>
-
-            <div className="mt-4 space-y-1">
-              <button
-                onClick={() => setActiveTab('profile')}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  activeTab === 'profile'
-                    ? 'bg-primary-600/20 text-primary-400 border border-primary-500/30'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <UserCircleIcon className="w-5 h-5" />
-                <span>Profile Information</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('security')}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  activeTab === 'security'
-                    ? 'bg-primary-600/20 text-primary-400 border border-primary-500/30'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <KeyIcon className="w-5 h-5" />
-                <span>Security</span>
-              </button>
+      <div className="mx-auto max-w-4xl space-y-xl px-margin-desktop pb-xl">
+        <section className="rounded-xl border border-outline-variant bg-surface-container-lowest p-lg" id="personal-info">
+          <div className="mb-lg flex items-center gap-sm border-b border-outline-variant pb-sm">
+            <MaterialIcon name="person" className="text-primary" size={24} />
+            <h3 className="text-headline-md text-primary">Personal Information</h3>
+          </div>
+          <div className="mb-lg flex items-center gap-md">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-fixed text-lg font-bold text-primary">
+              {initials}
+            </div>
+            <div>
+              <p className="text-body-md font-bold text-primary">{user?.displayName}</p>
+              <p className="text-body-sm text-on-surface-variant">{user?.email}</p>
+              <p className="mt-1 font-mono text-label-sm text-on-surface-variant">
+                Member since {user?.createdAt ? formatDate(user.createdAt, 'short') : 'Recently'}
+              </p>
             </div>
           </div>
+          <ProfileForm onSuccess={handleProfileUpdate} />
+        </section>
 
-          <div className="lg:col-span-2">
-            {activeTab === 'profile' ? (
-              <ProfileForm onSuccess={handleProfileUpdate} />
-            ) : (
-              <ChangePasswordForm />
-            )}
+        <section className="rounded-xl border border-outline-variant bg-surface-container-lowest p-lg" id="security">
+          <div className="mb-lg flex items-center gap-sm border-b border-outline-variant pb-sm">
+            <MaterialIcon name="security" className="text-primary" size={24} />
+            <h3 className="text-headline-md text-primary">Security Settings</h3>
           </div>
-        </div>
-      </main>
-    </div>
+          <ChangePasswordForm />
+        </section>
+      </div>
+    </DashboardLayout>
   );
 };
 

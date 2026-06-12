@@ -1,29 +1,23 @@
 // src/components/auth/LoginForm.tsx
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import {
-  EnvelopeIcon,
-  LockClosedIcon,
-  EyeIcon,
-  EyeSlashIcon,
-} from '@heroicons/react/24/outline';
-import { Button } from '../common/Button';
-import { Input } from '../common/Input';
-import { Card } from '../common/Card';
-import { loginApi } from '../../api/authApi';
-import { useAuth } from '../../hooks/useAuth';
-import type { LoginFormData } from '../../types';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "../common/Button";
+import { loginApi } from "../../api/authApi";
+import { useAuth } from "../../hooks/useAuth";
+import type { LoginFormData } from "../../types";
+import { FcGoogle } from "react-icons/fc";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 const loginSchema = z.object({
   email: z
     .string()
-    .min(1, 'Email is required')
-    .email('Please enter a valid email address')
+    .min(1, "Email is required")
+    .email("Please enter a valid email address")
     .toLowerCase()
     .trim(),
-  password: z.string().min(1, 'Password is required'),
+  password: z.string().min(1, "Password is required"),
 });
 
 interface LoginFormProps {
@@ -48,92 +42,98 @@ export const LoginForm = ({
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = async (data: LoginFormData) => {
     setIsSubmitting(true);
     setServerError(null);
-
     try {
       const user = await loginApi(data);
       setUser(user);
       onSuccess();
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Invalid email or password';
-      setServerError(message);
+      setServerError(
+        error instanceof Error ? error.message : "Invalid email or password",
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto" padding="lg">
-      <div className="text-center mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-          Welcome Back
-        </h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Sign in to access your files
-        </p>
-      </div>
+    <div className="login-card w-full max-w-[400px] rounded-xl border border-outline-variant bg-surface-container-lowest p-xl">
+      <form className="space-y-lg" onSubmit={handleSubmit(onSubmit)}>
+        {serverError && (
+          <div className="rounded-lg border border-error-container bg-error-container/30 p-sm">
+            <p className="text-center text-body-sm text-error">{serverError}</p>
+          </div>
+        )}
 
-      {serverError && (
-        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-          <p className="text-sm text-red-700 dark:text-red-400 text-center">
-            {serverError}
-          </p>
+        <div className="space-y-xs">
+          <label
+            className="text-label-md text-on-surface-variant"
+            htmlFor="email"
+          >
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="yourname@example.com"
+            className="stitch-input"
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="text-label-sm text-error">{errors.email.message}</p>
+          )}
         </div>
-      )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <Input
-          label="Email Address"
-          type="email"
-          placeholder="you@example.com"
-          leftIcon={<EnvelopeIcon className="w-5 h-5" />}
-          error={errors.email?.message}
-          {...register('email')}
-        />
-
-        <Input
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          placeholder="Enter your password"
-          leftIcon={<LockClosedIcon className="w-5 h-5" />}
-          rightIcon={
+        <div className="space-y-xs">
+          <div className="flex items-center justify-between">
+            <label
+              className="text-label-md text-on-surface-variant"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            {onForgotPasswordClick && (
+              <button
+                type="button"
+                onClick={onForgotPasswordClick}
+                className="text-label-md text-on-surface-variant transition-colors hover:text-primary"
+              >
+                Forgot password?
+              </button>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              className="stitch-input pr-10"
+              {...register("password")}
+            />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="focus:outline-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary"
               tabIndex={-1}
             >
               {showPassword ? (
-                <EyeSlashIcon className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                <IoEyeOffOutline size={18} />
               ) : (
-                <EyeIcon className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                <IoEyeOutline size={18} />
               )}
             </button>
-          }
-          error={errors.password?.message}
-          {...register('password')}
-        />
-
-        {onForgotPasswordClick && (
-          <div className="text-right">
-            <button
-              type="button"
-              onClick={onForgotPasswordClick}
-              className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
-            >
-              Forgot password?
-            </button>
           </div>
-        )}
+          {errors.password && (
+            <p className="text-label-sm text-error">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
 
         <Button
           type="submit"
@@ -142,22 +142,36 @@ export const LoginForm = ({
           fullWidth
           isLoading={isSubmitting}
         >
-          Sign In
+          Log in
         </Button>
+
+        <div className="relative flex items-center py-sm">
+          <div className="grow border-t border-outline-variant" />
+          <span className="mx-md text-label-sm text-outline">OR</span>
+          <div className="grow border-t border-outline-variant" />
+        </div>
+
+        <button
+          type="button"
+          className="flex h-11 w-full items-center justify-center gap-sm rounded-lg border border-outline-variant bg-surface-container-lowest text-body-md text-primary transition-all hover:bg-surface-container-low active:scale-[0.98]"
+        >
+          <FcGoogle className="h-5 w-5" />
+          Continue with Google
+        </button>
       </form>
 
-      <div className="mt-6 text-center">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
-          Don&apos;t have an account?{' '}
+      <div className="mt-xl text-center">
+        <p className="text-body-sm text-on-surface-variant">
+          Don&apos;t have an account?{" "}
           <button
             type="button"
             onClick={onRegisterClick}
-            className="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+            className="font-semibold text-primary hover:underline"
           >
-            Create account
+            Sign up
           </button>
         </p>
       </div>
-    </Card>
+    </div>
   );
 };

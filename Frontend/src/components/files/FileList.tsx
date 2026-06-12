@@ -1,7 +1,6 @@
 // src/components/files/FileList.tsx
-import { DocumentIcon } from '@heroicons/react/24/outline';
+import { MaterialIcon } from '../common/MaterialIcon';
 import { FileCard } from './FileCard';
-import { Card } from '../common/Card';
 import type { FileType } from '../../types';
 
 interface FileListProps {
@@ -13,11 +12,9 @@ interface FileListProps {
 export const FileList = ({ files, isLoading, onDelete }: FileListProps) => {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-lg sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {[...Array(4)].map((_, i) => (
-          <Card key={i} className="h-48 animate-pulse">
-            <div className="h-full bg-gray-200 dark:bg-gray-700 rounded-lg" />
-          </Card>
+          <div key={i} className="h-48 animate-pulse rounded-xl border border-outline-variant bg-surface-container-low" />
         ))}
       </div>
     );
@@ -25,20 +22,18 @@ export const FileList = ({ files, isLoading, onDelete }: FileListProps) => {
 
   if (files.length === 0) {
     return (
-      <Card className="text-center py-12">
-        <DocumentIcon className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500" />
-        <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
-          No files yet
-        </h3>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+      <div className="rounded-xl border border-outline-variant bg-surface-container-lowest py-16 text-center">
+        <MaterialIcon name="folder_open" size={64} className="mx-auto text-on-surface-variant/40" />
+        <h3 className="mt-4 text-headline-md text-primary">No files yet</h3>
+        <p className="mt-1 text-body-sm text-on-surface-variant">
           Upload your first file to get started
         </p>
-      </Card>
+      </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 gap-lg sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
       {files.map((file) => (
         <FileCard key={file.uuid} file={file} onDelete={onDelete} />
       ))}
