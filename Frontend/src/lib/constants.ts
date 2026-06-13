@@ -1,3 +1,4 @@
+// Frontend/src/lib/constants.ts
 // Website Introduction
 export const APP_NAME = "File-Sharing-App";
 export const APP_VERSION = "1.0.0";

@@ -1,3 +1,4 @@
+// Frontend/src/components/layout/AppFooter.tsx
 interface AppFooterProps {
   compact?: boolean;
   className?: string;

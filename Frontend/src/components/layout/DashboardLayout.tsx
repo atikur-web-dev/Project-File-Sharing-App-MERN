@@ -1,3 +1,4 @@
+// Frontend/src/components/layout/DashboardLayout.tsx
 import type { ReactNode } from 'react';
 import { Sidebar, type SidebarNavId } from './Sidebar';
 import { AppFooter } from './AppFooter';

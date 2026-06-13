@@ -1,3 +1,4 @@
+// Frontend/src/components/layout/Sidebar.tsx
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { MaterialIcon } from '../common/MaterialIcon';

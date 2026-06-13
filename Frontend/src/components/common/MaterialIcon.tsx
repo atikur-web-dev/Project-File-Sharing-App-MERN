@@ -1,3 +1,4 @@
+// Frontend/src/components/common/MaterialIcon.tsx
 import { cn } from '../../lib/utils';
 
 interface MaterialIconProps {

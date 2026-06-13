@@ -1,3 +1,4 @@
+// Frontend/src/components/common/Avatar.tsx
 import { useState } from "react";
 import { cn, getInitials, stringToColor } from "../../lib/utils";
 

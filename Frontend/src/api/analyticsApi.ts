@@ -1,8 +1,8 @@
-import { api } from "./axios";
-import type { FileType } from "../types";
-
 // Download statistics structure
 // src/api/analyticsApi.ts
+
+import { api } from "./axios";
+import type { FileType } from "../types";
 export interface DownloadStats {
   totalDownloads: number;
   filesByDownloads: {
