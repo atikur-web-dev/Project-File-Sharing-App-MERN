@@ -139,7 +139,7 @@ export const FileUpload = ({ onUploadSuccess, onUploadError }: FileUploadProps) 
         <div
           {...getRootProps()}
           className={cn(
-            'group relative flex min-h-[320px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-outline-variant bg-surface-container-lowest p-xl transition-all hover:border-secondary',
+            'group relative flex min-h-80 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-outline-variant bg-surface-container-lowest p-xl transition-all hover:border-secondary',
             isDragActive && 'border-secondary bg-secondary-container/10'
           )}
         >

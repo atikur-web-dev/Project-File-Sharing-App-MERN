@@ -109,7 +109,7 @@ const HomePage = () => {
               {FEATURES.map((f, i) => (
                 <div
                   key={i}
-                  className={`bento-item rounded-xl ${f.wide ? 'col-span-12 md:col-span-7' : 'col-span-12 md:col-span-5'} min-h-[240px] flex flex-col justify-center ${!f.wide ? 'bg-surface-container-low' : ''}`}
+                  className={`bento-item rounded-xl ${f.wide ? 'col-span-12 md:col-span-7' : 'col-span-12 md:col-span-5'} min-h-60 flex flex-col justify-center ${!f.wide ? 'bg-surface-container-low' : ''}`}
                 >
                   <MaterialIcon name={f.icon} size={32} className="mb-md text-primary" />
                   <h3 className="mb-sm text-headline-md text-primary">{f.title}</h3>

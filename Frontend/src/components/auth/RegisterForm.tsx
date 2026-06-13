@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '../common/Button';
-import { MaterialIcon } from '../common/MaterialIcon';
 import { registerApi } from '../../api/authApi';
 import type { RegisterFormData } from '../../types';
 
@@ -14,8 +12,7 @@ const registerSchema = z.object({
     .min(1, 'Display name is required')
     .min(3, 'Display name must be at least 3 characters')
     .max(50, 'Display name cannot exceed 50 characters')
-    .trim()
-    .regex(/^[a-zA-Z0-9\s\u0980-\u09FF]+$/, 'Special characters and emojis are not allowed'),
+    .trim(),
   email: z
     .string()
     .min(1, 'Email is required')
@@ -32,16 +29,16 @@ const registerSchema = z.object({
     ),
 });
 
-const getPasswordStrength = (password: string): { width: number; label: string; color: string } => {
-  if (!password) return { width: 0, label: 'Weak', color: 'bg-error' };
+const getPasswordStrength = (password: string): { width: string; label: string; color: string } => {
+  if (!password) return { width: '0%', label: 'Weak', color: '#ef4444' };
   let score = 0;
-  if (password.length > 5) score += 25;
-  if (password.length > 8) score += 25;
-  if (/[0-9]/.test(password)) score += 25;
-  if (/[^A-Za-z0-9]/.test(password)) score += 25;
-  if (score <= 25) return { width: score, label: 'Weak', color: 'bg-error' };
-  if (score <= 75) return { width: score, label: 'Fair', color: 'bg-on-secondary-container' };
-  return { width: score, label: 'Strong', color: 'bg-secondary' };
+  if (password.length >= 8) score += 33;
+  if (/[0-9]/.test(password)) score += 33;
+  if (/[^A-Za-z0-9]/.test(password)) score += 34;
+  
+  if (score <= 33) return { width: '33%', label: 'Weak', color: '#ef4444' };
+  if (score <= 66) return { width: '66%', label: 'Fair', color: '#f59e0b' };
+  return { width: '100%', label: 'Strong', color: '#10b981' };
 };
 
 interface RegisterFormProps {
@@ -81,100 +78,122 @@ export const RegisterForm = ({ onSuccess, onLoginClick }: RegisterFormProps) => 
   };
 
   return (
-    <div className="w-full max-w-sm">
-      <header className="mb-xl">
-        <h2 className="mb-xs text-headline-lg text-primary">Create an account</h2>
-        <p className="text-body-md text-on-surface-variant">Start managing your files with precision.</p>
-      </header>
+    <div className="w-full max-w-md mx-auto">
+      <div className="mb-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Create an account</h2>
+        <p className="text-sm text-gray-600">
+          Start managing your files with precision.
+        </p>
+      </div>
 
       {serverError && (
-        <div className="mb-lg rounded-lg border border-error-container bg-error-container/30 p-sm">
-          <p className="text-center text-body-sm text-error">{serverError}</p>
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-600 text-center">{serverError}</p>
         </div>
       )}
 
-      <form className="space-y-lg" id="registerForm" onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-xs">
-          <label className="text-label-md text-on-surface-variant" htmlFor="fullName">
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        {/* Full Name Field */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="fullName">
             Full Name
           </label>
           <input
             id="fullName"
             type="text"
             placeholder="Ada Lovelace"
-            className="stitch-input font-sans text-body-md"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             {...register('displayName')}
           />
           {errors.displayName && (
-            <p className="text-label-sm text-error">{errors.displayName.message}</p>
+            <p className="mt-1 text-xs text-red-600">{errors.displayName.message}</p>
           )}
         </div>
 
-        <div className="space-y-xs">
-          <label className="text-label-md text-on-surface-variant" htmlFor="email">
+        {/* Email Field */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
             Work Email
           </label>
           <input
             id="email"
             type="email"
             placeholder="ada@company.com"
-            className="stitch-input font-sans text-body-md"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             {...register('email')}
           />
-          {errors.email && <p className="text-label-sm text-error">{errors.email.message}</p>}
+          {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
         </div>
 
-        <div className="space-y-xs">
-          <div className="flex items-end justify-between">
-            <label className="text-label-md text-on-surface-variant" htmlFor="password">
+        {/* Password Field */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <label className="block text-sm font-medium text-gray-700" htmlFor="password">
               Password
             </label>
-            <span className={`text-label-sm ${strength.color === 'bg-error' ? 'text-error' : strength.color === 'bg-secondary' ? 'text-secondary' : 'text-on-secondary-container'}`}>
-              {strength.label}
-            </span>
+            {password && (
+              <span className={`text-xs font-medium`} style={{ color: strength.color }}>
+                {strength.label}
+              </span>
+            )}
           </div>
+          
           <div className="relative">
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
               placeholder="••••••••"
-              className="stitch-input pr-10 font-sans text-body-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
               {...register('password')}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
             >
-              <MaterialIcon name={showPassword ? 'visibility_off' : 'visibility'} size={18} />
+              {showPassword ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
-          <div className="mt-2 overflow-hidden rounded-full bg-surface-container-highest">
-            <div
-              className={`password-strength-bar h-0.5 transition-all duration-300 ${strength.color}`}
-              style={{ width: `${strength.width}%` }}
-            />
-          </div>
-          {errors.password && (
-            <p className="text-label-sm text-error">{errors.password.message}</p>
+          
+          {/* Password Strength Bar */}
+          {password && (
+            <div className="mt-2 h-1 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full transition-all duration-300 rounded-full"
+                style={{ width: strength.width, backgroundColor: strength.color }}
+              />
+            </div>
           )}
-          <p className="text-label-sm text-on-surface-variant/60">Minimum 8 characters with numbers.</p>
+          
+          {errors.password && (
+            <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>
+          )}
+          <p className="mt-1 text-xs text-gray-500">
+            Minimum 8 characters with uppercase, lowercase, number and special character.
+          </p>
         </div>
 
-        <Button type="submit" variant="primary" size="lg" fullWidth isLoading={isSubmitting}>
-          Create Account
-          {!isSubmitting && <MaterialIcon name="arrow_forward" size={18} className="ml-1" />}
-        </Button>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? 'Creating account...' : 'Create Account'}
+        </button>
       </form>
 
-      <footer className="mt-xl flex flex-col items-center gap-md border-t border-outline-variant pt-lg">
-        <p className="text-body-md text-on-surface-variant">
+      <div className="mt-6 pt-4 border-t border-gray-200 text-center">
+        <p className="text-sm text-gray-600">
           Already have an account?{' '}
-          <button type="button" onClick={onLoginClick} className="font-bold text-primary hover:underline">
+          <button
+            type="button"
+            onClick={onLoginClick}
+            className="font-medium text-blue-600 hover:text-blue-700 hover:underline"
+          >
             Log in
           </button>
         </p>
-      </footer>
+      </div>
     </div>
   );
 };
