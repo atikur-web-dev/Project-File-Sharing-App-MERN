@@ -1,3 +1,4 @@
+// Backend/src/Types/config.d.ts
 export type Environment = 'development' | 'production' | 'staging';
 
 export type Config = {

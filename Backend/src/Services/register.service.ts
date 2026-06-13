@@ -1,3 +1,4 @@
+// D:\File-Sharing-App\File-Sharing-App-Practice-One\Backend\src\Services\register.service.ts
 import { ZRegisterUser } from '../Validators/auth.validator.ts';
 import type { RegisterUserDTO } from '../Validators/auth.validator.ts';
 import { formatErrors } from '../Utils/errors/formatErrors.ts';

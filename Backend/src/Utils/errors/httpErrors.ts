@@ -1,3 +1,4 @@
+// Backend/src/Utils/errors/httpErrors.ts
 import { ApiError } from '../apiError.ts';
 
 export class BadRequestError extends ApiError {

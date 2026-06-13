@@ -1,3 +1,4 @@
+// Backend/src/Models/user.schema.ts
 import mongoose, { Schema, model } from "mongoose";
 import type { IUser } from "../Types/schema.js";
 import { hash, compare } from "bcryptjs";

@@ -1,3 +1,4 @@
+//Backend/src/Services/emailVerification.service.ts
 import jwt from 'jsonwebtoken';
 import { User } from '../Models/user.schema.ts';
 import { NotFoundError, ValidationError } from '../Utils/errors/httpErrors.ts';

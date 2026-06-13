@@ -1,3 +1,4 @@
+// Backend/src/Utils/apiError.ts
 export class ApiError extends Error {
   statusCode: number;
   status: boolean;

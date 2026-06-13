@@ -1,3 +1,4 @@
+// Backend/src/templates/email-templates/emailVerification.ts
 export function emailVerificationTemplate(
   verificationUrl: string,
   name?: string

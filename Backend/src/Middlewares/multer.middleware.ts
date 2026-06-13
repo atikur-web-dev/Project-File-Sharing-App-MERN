@@ -79,12 +79,12 @@ const fileFilter = (
 };
 
 // ============================================
-// Multer ইনস্ট্যান্স তৈরি
+// Multer instance
 // ============================================
 export const upload = multer({
-  storage: storage,               // স্টোরেজ কনফিগ
+  storage: storage,               
   limits: {
-    fileSize: 5 * 1024 * 1024,    // 5MB লিমিট
+    fileSize: 5 * 1024 * 1024,    
   },
-  fileFilter: fileFilter,         // ফাইল ফিল্টার
+  fileFilter: fileFilter,        
 });

@@ -1,3 +1,4 @@
+// Backend/src/Types/schema.d.ts
 import type { Document, Types } from 'mongoose';
 
 export interface IUser extends Document {
