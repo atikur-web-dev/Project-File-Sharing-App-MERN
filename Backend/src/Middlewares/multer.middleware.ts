@@ -1,7 +1,9 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { Request } from "express";
 
+// Upload directory create
 const uploadDirectory = path.resolve(process.cwd(), "src", "tmp", "my-uploads");
 
 if (!fs.existsSync(uploadDirectory)) {
@@ -9,11 +11,12 @@ if (!fs.existsSync(uploadDirectory)) {
   console.log(`Upload directory created: ${uploadDirectory}`);
 }
 
+// Storage configuration
 const storage = multer.diskStorage({
-  destination: function (_req, _file, cb) {
+  destination: function (_req: Request, _file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) {
     cb(null, uploadDirectory);
   },
-  filename: function (_req, file, cb) {
+  filename: function (_req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const fileExtension = path.extname(file.originalname);
     const newFileName = `${file.fieldname}-${uniqueSuffix}${fileExtension}`;
@@ -21,8 +24,9 @@ const storage = multer.diskStorage({
   },
 });
 
+// File filter
 const fileFilter = (
-  _req: any,
+  _req: Request,
   file: Express.Multer.File,
   cb: multer.FileFilterCallback
 ) => {
@@ -44,10 +48,11 @@ const fileFilter = (
   }
 };
 
+// Export multer instance
 export const upload = multer({
-  storage: storage,               
+  storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024,    
+    fileSize: 5 * 1024 * 1024, // 5MB
   },
-  fileFilter: fileFilter,        
+  fileFilter: fileFilter,
 });
