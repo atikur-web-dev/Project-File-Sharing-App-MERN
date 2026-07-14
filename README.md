@@ -1,9 +1,9 @@
-# File Sharing APP
+# File Sharing App Backend
 
-A production-ready file sharing and distribution backend built with **Node.js**, **TypeScript**, **Express**, and **MongoDB**.
+A production-ready RESTful API for secure file uploading, sharing, authentication, and file management built with **Node.js**, **TypeScript**, **Express.js**, and **MongoDB**.
 
 
-### Tech Stack
+## Tech Stack
 
 - **Runtime:** Node.js + TypeScript
 - **Framework:** Express.js
@@ -13,7 +13,33 @@ A production-ready file sharing and distribution backend built with **Node.js**,
 - **Email:** Resend API
 - **Scheduled Tasks:** node-cron
 
-### Environment Variables
+##  Features
+
+###  Authentication & Authorization
+- User Registration & Login
+- Email Verification (Resend API)
+- JWT Authentication (Access + Refresh Tokens)
+- Secure HTTP-Only Cookie-based Sessions
+- User Profile Retrieval
+- Logout & Session Management
+
+###  File Management
+- Single & Multiple File Upload (Max 5 Files)
+- Secure UUID-based File Sharing
+- Inline File Preview & Download
+- File Metadata Retrieval
+- Pagination, Search & Sorting
+- Authorized File Deletion
+
+###  Security & Infrastructure
+- Rate Limiting
+- Helmet & CORS Protection
+- Zod Request Validation
+- Environment Variable Validation
+- Automatic Orphan File Cleanup (Cron Job)
+- Global Error Handling
+
+## Environment Variables
 Create a `.env` file by copying `.env.example`:
 ```bash
 cp .env.example .env
@@ -52,7 +78,7 @@ Backend/
 ```
 
 
-### Quick Start
+## Quick Start
 ### Prerequisites
 - Node.js (v18+)
 - MongoDB (Local or Atlas)
@@ -79,10 +105,25 @@ App runs on http://localhost:5173
 ### Complete API Endpoints
 **Base URL:** `http://localhost:8000/api/v1`
 
+## API Testing
+
+All REST API endpoints can be tested using the included Postman Collection.
+
+**Postman Collection:**
+
+```text
+postman/File-Sharing-App.postman_collection.json
+```
+
+### Steps
+1. Import the Postman Collection into Postman.
+2. Start the backend server.
+3. Update the `base_url` if necessary (default: `http://localhost:8000/api/v1`).
+4. Execute the requests to test the available endpoints.
 
 
 ### Authentication Endpoints (Test in PostMan)
------------------------------------------------------------------------------
+
 | Method |        Full Endpoint         | Description        | Auth Required |
 |--------|------------------------------|--------------------|---------------|
 | POST   | `/api/v1/auth/register`      | Register new user  |      NO       |
@@ -91,10 +132,10 @@ App runs on http://localhost:5173
 | POST   | `/api/v1/auth/refresh`       | Refresh tokens     |      NO       |
 | GET    | `/api/v1/auth/me`            | Get current user   |      YES      |
 | POST   | `/api/v1/auth/logout`        | Logout user        |      YES      |
------------------------------------------------------------------------------
+
 
 ### File Management Endpoints (Test in PostMan)
---------------------------------------------------------------------------------------
+
 | Method |       Full Endpoint            | Description              | Auth Required |
 |--------|--------------------------------|--------------------------|---------------|
 | POST   | `/api/v1/files`                | Upload files (max 5)     |     YES       |
@@ -104,18 +145,51 @@ App runs on http://localhost:5173
 | GET    | `/api/v1/files/view/:uuid`     | View file inline         |    OPTIONAL   |
 | DELETE | `/api/v1/files/:uuid`          | Delete file              |      YES      |
 | GET    | `/api/v1/files/:uuid`          | Get file metadata        |     OPTIONAL  |
--------------------------------------------------------------------------------------
 
 
-#### Example Requests
 
-**POST /api/v1/auth/register**
+### Example Request
+
+**POST** `/api/v1/auth/register`
+
+**Request Body**
+
 ```json
 {
   "displayName": "John Doe",
   "email": "john@example.com",
   "password": "Password123!"
 }
+```
 
+### Success Response (201 Created)
+
+```json
+{
+  "statusCode": 201,
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "_id": "<generated_object_id>",
+    "displayName": "John Doe",
+    "email": "john@example.com",
+    "emailVerification": null
+  }
+}
+```
+
+### Error Response (400 Bad Request)
+
+```json
+{
+  "success": false,
+  "message": "Email already registered",
+  "errors": {
+    "email": [
+      "Email already exists"
+    ]
+  }
+}
+```
 
 
