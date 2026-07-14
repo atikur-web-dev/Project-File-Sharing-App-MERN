@@ -13,25 +13,48 @@ A production-ready file sharing and distribution backend built with **Node.js**,
 - **Email:** Resend API
 - **Scheduled Tasks:** node-cron
 
----
-
 ### Project Structure
+```txt
 Backend/
 ├── src/
-│ ├── Config/ # Environment configuration
-│ ├── Controller/ # Request handlers
-│ ├── Models/ # MongoDB schemas
-│ ├── Services/ # Business logic
-│ ├── Middlewares/ # Auth, validation, upload
-│ ├── Routes/ # API endpoints
-│ ├── Utils/ # Helpers & cleanup scripts
-│ └── server.ts # Entry point
+│   ├── Config/          # Environment configuration
+│   ├── Controller/      # Request handlers
+│   ├── Models/          # MongoDB schemas
+│   ├── Services/        # Business logic
+│   ├── Middlewares/     # Auth, validation, upload
+│   ├── Routes/          # API endpoints
+│   ├── Utils/           # Helpers & cleanup scripts
+│   └── server.ts        # Entry point
+```
 
 
+### Quick Start
+### Prerequisites
+- Node.js (v18+)
+- MongoDB (Local or Atlas)
+
+### Backend Setup
+```bash
+cd Backend
+npm install
+cp .env.example .env
+npm run dev
+```
+**Server runs on:** `http://localhost:8000`
+
+###  Frontend Setup
+```bash
+cd Frontend
+npm install
+cp .env.example .env
+npm run dev
+
+App runs on http://localhost:5173
+```
 
 ### Complete API Endpoints
-
 **Base URL:** `http://localhost:8000/api/v1`
+
 
 
 ### Authentication Endpoints (Test in PostMan)
