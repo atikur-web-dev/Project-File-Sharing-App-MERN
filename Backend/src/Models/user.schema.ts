@@ -1,8 +1,10 @@
+// Backend/src/Models/user.schema.ts
 import mongoose, { Schema, model } from "mongoose";
 import type { IUser } from "../Types/schema.js";
 import { hash, compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { config } from "../Config/config.js";
+import { config } from "../Config/config.ts";
+
 
 const userSchema = new Schema<IUser>(
   {
@@ -58,6 +60,7 @@ userSchema.methods.checkPassword = async function (
   return await compare(password, this.password);
 };
 
+// Access token generator
 userSchema.methods.generateAccessToken = function (): string {
   const userId = this._id.toString();
 
@@ -75,6 +78,7 @@ userSchema.methods.generateAccessToken = function (): string {
   );
 };
 
+// generate Refresh Token
 userSchema.methods.generateRefreshToken = function (): string {
   const userId = this._id.toString();
 

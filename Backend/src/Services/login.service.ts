@@ -1,10 +1,9 @@
-import { ZLoginUser } from '../Validators/auth.validator.js';
-import type { LoginUserDTO } from '../Validators/auth.validator.js';
-import { formatErrors } from '../Utils/errors/formatErrors.js';
-import { ValidationError, NotFoundError } from '../Utils/errors/httpErrors.js';
-import { User } from '../Models/user.schema.js';
-import type { IUserResponse } from '../Types/schema.js';
-
+import { ZLoginUser } from '../Validators/auth.validator.ts';
+import type { LoginUserDTO } from '../Validators/auth.validator.ts';
+import { formatErrors } from '../Utils/errors/formatErrors.ts';
+import { ValidationError, NotFoundError } from '../Utils/errors/httpErrors.ts';
+import { User } from '../Models/user.schema.ts';
+import type { IUserResponse } from '../Types/schema.d.ts';
 
 interface LoginServiceResponse {
   user: IUserResponse;

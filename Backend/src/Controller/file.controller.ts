@@ -1,41 +1,44 @@
 //Backend/src/Controller/file.controller.ts
 import type { Response, Request, NextFunction } from 'express';
-import { ValidationError } from '../Utils/errors/httpErrors.js';
-import { config } from '../Config/config.js';
+import { ValidationError } from '../Utils/errors/httpErrors.ts';
+import { config } from '../Config/config.ts';
 import {
   singleFileUploadService,
   multipleFileUploadService,
   type FileUploadResponse,
-} from '../Services/fileUpload.service.js';
+} from '../Services/fileUpload.service.ts';
 import {
   getFileInfoService,
   getMultipleFilesInfoService,
   getPaginatedFilesService,
   type PaginationOptions,
-} from '../Services/getFileInfo.service.js';
-import { NotFoundError } from '../Utils/errors/httpErrors.js';
-import { OkResponse } from '../Utils/success/httpSuccess.js';
+} from '../Services/getFileInfo.service.ts';
+import { NotFoundError } from '../Utils/errors/httpErrors.ts';
+import { OkResponse } from '../Utils/success/httpSuccess.ts';
 import fs from 'fs';
 import path from 'path';
-import { File } from '../Models/file.schema.js';
-import { deleteFileService } from '../Services/deleteFile.service.js';
+import { File } from '../Models/file.schema.ts';
+import { deleteFileService } from '../Services/deleteFile.service.ts';
 
-
+// FILE UPLOAD CONTROLLER
 export const fileUpload = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
+    // Step 1: multer file extract
     const files = req.files as Express.Multer.File[];
 
+    // Step 2: file validation
     if (!files || files.length === 0) {
       throw new ValidationError(
         {},
         'Please select at least one file to upload.',
       );
     }
-    const userID = req.user?._id; 
+    const userID = req.user?._id; // authenticate middleware is being set in req.user
+    // Step 3: service call (single or multiple)
     let uploadResult: FileUploadResponse | FileUploadResponse[];
 
     if (files.length === 1) {
@@ -44,6 +47,7 @@ export const fileUpload = async (
       uploadResult = await multipleFileUploadService(files, userID);
     }
 
+    // Step 4: response formatter
     const formatResponse = (file: FileUploadResponse) => {
       return {
         fileName: file.fileName,
@@ -58,10 +62,12 @@ export const fileUpload = async (
       };
     };
 
+    // Step 5: single vs multiple response handling
     const responseData = Array.isArray(uploadResult)
       ? uploadResult.map(formatResponse)
       : formatResponse(uploadResult);
 
+    // Step 6: success response
     res.status(201).json({
       success: true,
       message: 'File uploaded successfully',
@@ -84,6 +90,7 @@ export const getFileInfo = async (
       throw new NotFoundError({}, 'File identifier is required.');
     }
 
+    // multiple UUID support (comma separated)
     if (uuid.includes(',')) {
       const uuidArray = (Array.isArray(uuid) ? uuid[0] : uuid)
         .split(',')
@@ -100,6 +107,7 @@ export const getFileInfo = async (
         );
     }
 
+    // single file info
     const fileInfo = await getFileInfoService(
       Array.isArray(uuid) ? uuid[0] : uuid,
     );
@@ -182,13 +190,16 @@ export const viewFile = async (
   }
 };
 
+// User file for logged user , i mean people who are my logged user, not random visitor and have profile, this controller is for them, the can see their uploaded files
 export const getMyFiles = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
+    // set authenticate middleware in req.user
     const userID = req.user!._id;
+    //pass query parameters
     const options: PaginationOptions = {
       page: req.query.page ? parseInt(req.query.page as string) : 1,
       limit: req.query.limit ? parseInt(req.query.limit as string) : 10,
@@ -197,10 +208,13 @@ export const getMyFiles = async (
       search: req.query.search as string,
       userId: userID,
     };
+    // call the service
     const result = await getPaginatedFilesService(options);
+    // bring all the files from BD
     const files = await File.find({ whoUploaded: userID })
       .sort({ createdAt: -1 })
       .lean();
+    // Response formatting
     const formattedFiles = files.map((file) => ({
       fileName: file.fileName,
       originalName: file.originalName || file.fileName,
@@ -224,6 +238,7 @@ export const getMyFiles = async (
   } catch (error) {}
 };
 
+// Get all files with pagination
 export const getAllFiles = async (
   req: Request,
   res: Response,
@@ -246,6 +261,7 @@ export const getAllFiles = async (
   }
 };
 
+// Delete file
 export const deleteFile = async (
   req: Request,
   res :Response,
@@ -253,7 +269,7 @@ export const deleteFile = async (
 ) => {
   try {
     const {uuid} = req.params;
-    const userId = req.user?._id; 
+    const userId = req.user?._id;
     if(!uuid){
       throw new ValidationError({}, "File UUID is required");
     }

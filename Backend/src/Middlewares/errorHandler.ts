@@ -1,6 +1,7 @@
+// Backend/src/Middlewares/errorHandler.ts
 import type { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import { ApiError } from "../Utils/apiError.js";
-import { config } from "../Config/config.js";
+import { ApiError } from "../Utils/apiError.ts";
+import { config } from "../Config/config.ts";
 
 
 export const errorHandler: ErrorRequestHandler = (
@@ -9,6 +10,7 @@ export const errorHandler: ErrorRequestHandler = (
   res: Response,
   _next: NextFunction
 ) => {
+ 
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json({
       success: err.status,      
@@ -20,6 +22,7 @@ export const errorHandler: ErrorRequestHandler = (
     });
   }
 
+ 
   const message = err instanceof Error ? err.message : "Internal Server Error";
   
   return res.status(500).json({

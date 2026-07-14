@@ -1,6 +1,6 @@
 // Backend/src/Routes/file.route.ts
 import { Router } from 'express';
-import { upload } from '../Middlewares/multer.middleware.js';
+import { upload } from '../Middlewares/multer.middleware.ts';
 import {
   fileUpload,
   getFileInfo,
@@ -9,12 +9,12 @@ import {
   getMyFiles,
   getAllFiles,
   deleteFile,
-} from '../Controller/file.controller.js';
+} from '../Controller/file.controller.ts';
 import {
   authenticate,
   optionalAuthenticate,
   requiredEmailVerification,
-} from '../Middlewares/auth.middleware.js';
+} from '../Middlewares/auth.middleware.ts';
 const router = Router();
 
 // 1. Specific static routes 

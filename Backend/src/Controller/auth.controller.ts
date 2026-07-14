@@ -1,16 +1,16 @@
 // Backend/src/Controller/auth.controller.ts
 import type { CookieOptions, NextFunction, Request, Response } from 'express';
-import { registerService } from '../Services/register.service.js';
-import { CreatedResponse, OkResponse } from '../Utils/success/httpSuccess.js';
-import { LoginService } from '../Services/login.service.js';
-import { config } from '../Config/config.js';
-import { emailVerificationService } from '../Services/emailVerification.service.js';
-import { ValidationError } from '../Utils/errors/httpErrors.js';
-import { authenticate } from '../Middlewares/auth.middleware.js';
-import { logoutService } from '../Services/logout.service.js';
-import { refreshTokenService } from '../Services/refreshToken.service.js';
+import { registerService } from '../Services/register.service.ts';
+import { CreatedResponse, OkResponse } from '../Utils/success/httpSuccess.ts';
+import { LoginService } from '../Services/login.service.ts';
+import { config } from '../Config/config.ts';
+import { emailVerificationService } from '../Services/emailVerification.service.ts';
+import { ValidationError } from '../Utils/errors/httpErrors.ts';
+import { authenticate } from '../Middlewares/auth.middleware.ts';
+import { logoutService } from '../Services/logout.service.ts';
+import { refreshTokenService } from '../Services/refreshToken.service.ts';
 
-
+// Register controller
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const newUser = await registerService(req.body);
@@ -50,7 +50,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-// EMAIL VERIFICATION CONTROLLER
 const emailVerify = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { token } = req.params;
@@ -90,12 +89,12 @@ const refresh = async (req: Request, res: Response,  next: NextFunction) => {
     // set new tokens to cookies
     res.cookie('accessToken', accessToken, {
       ...cookieOptions,
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      maxAge: 24 * 60 * 60 * 1000, 
     });
 
     res.cookie('refreshToken', newRefreshToken, {
       ...cookieOptions,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      maxAge: 30 * 24 * 60 * 60 * 1000, 
     });
     res.status(200).json({
       success: true,
@@ -116,8 +115,9 @@ const getCurrentUser = async (req: Request, res: Response, next: NextFunction) =
 
 const logout = async(req : Request, res : Response,  next : NextFunction) => {
   try {
-
+    // set req.user in authenticate middleware
   const userId = req.user!._id;
+  // Logout service call
   await logoutService(userId)
   const cookieOptions: CookieOptions = {
       httpOnly: true,

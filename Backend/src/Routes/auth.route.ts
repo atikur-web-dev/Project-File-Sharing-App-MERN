@@ -1,7 +1,7 @@
 // Backend/src/Routes/auth.route.ts
 import { Router } from 'express';
-import { AuthController } from '../Controller/auth.controller.js';
-import { authenticate } from '../Middlewares/auth.middleware.js';
+import { AuthController } from '../Controller/auth.controller.ts';
+import { authenticate } from '../Middlewares/auth.middleware.ts';
 
 const router = Router();
 

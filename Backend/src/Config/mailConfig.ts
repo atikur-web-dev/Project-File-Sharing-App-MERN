@@ -1,6 +1,6 @@
 // Backend/src/Config/mailConfig.ts
 import { Resend } from 'resend';
-import { config } from './config.js';
+import { config } from './config.ts';
 
 const resend = new Resend(config.RESEND_API_KEY);
 
@@ -10,7 +10,7 @@ export async function sendMail(
   html: string,
 ): Promise<void> {
   try {
-    
+    // Resend API কল
     const { data, error } = await resend.emails.send({
       from: 'FileSharing <onboarding@resend.dev>',
       to: to,

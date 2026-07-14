@@ -1,13 +1,12 @@
-import { ZRegisterUser } from '../Validators/auth.validator.js';
-import type { RegisterUserDTO } from '../Validators/auth.validator.js';
-import { formatErrors } from '../Utils/errors/formatErrors.js';
-import { ValidationError } from '../Utils/errors/httpErrors.js';
-import { User } from '../Models/user.schema.js';
-import type { IUserResponse } from '../Types/schema.js';
-import { generateVerificationLink } from '../Utils/generateEmailVerificationLink.js';
-import { sendMail } from '../Config/mailConfig.js';
-import { emailVerificationTemplate } from '../templates/email-templates/emailVerification.js';
-
+import { ZRegisterUser } from '../Validators/auth.validator.ts';
+import type { RegisterUserDTO } from '../Validators/auth.validator.ts';
+import { formatErrors } from '../Utils/errors/formatErrors.ts';
+import { ValidationError } from '../Utils/errors/httpErrors.ts';
+import { User } from '../Models/user.schema.ts';
+import type { IUserResponse } from '../Types/schema.d.ts';
+import { generateVerificationLink } from '../Utils/generateEmailVerificationLink.ts';
+import { sendMail } from '../Config/mailConfig.ts';
+import { emailVerificationTemplate } from '../templates/email-templates/emailVerification.ts';
 
 export async function registerService(
   userData: unknown,

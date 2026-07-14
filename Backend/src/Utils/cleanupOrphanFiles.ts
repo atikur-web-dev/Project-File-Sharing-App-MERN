@@ -2,7 +2,7 @@
 import cron from 'node-cron';
 import fs from 'fs/promises';
 import path from 'path';
-import { File } from '../Models/file.schema.js';
+import { File } from '../Models/file.schema.ts';
 
 async function cleanupOrphanFiles() {
   console.log('Starting orphan file cleanUp.....');

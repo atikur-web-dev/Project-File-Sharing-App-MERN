@@ -1,7 +1,7 @@
 // Backend/src/Services/fileUpload.service.ts
 import { v4 as uuidv4 } from 'uuid';
-import { File } from '../Models/file.schema.js';
-import type { IFile } from '../Types/schema.d.js';
+import { File } from '../Models/file.schema.ts';
+import type { IFile } from '../Types/schema.d.ts';
 
 interface UploadedFileData {
   fieldname: string;
@@ -29,7 +29,6 @@ export async function singleFileUploadService(
   user?: string
 ): Promise<FileUploadResponse> {
   const fileUuid = uuidv4();
-  //save matadate in DB of file
   const savedFile = await File.create({
     fileName: file.filename,
     originalName: file.originalname,
@@ -39,7 +38,7 @@ export async function singleFileUploadService(
     uuid: fileUuid,
     whoUploaded: user || null,
   });
-  // Set user name by populate
+
   if(user){
     await savedFile.populate("whoUploaded", "displayName email")
   }

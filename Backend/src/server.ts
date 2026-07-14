@@ -1,9 +1,9 @@
 // src/server.ts
-import app from './App.js';
-import { config } from './Config/config.js';
-import { connectDB } from './DataBase/index.js';
-import { validateEnv } from './Utils/validateEnv.js';
-import { startCleanupCron } from './Utils/cleanupOrphanFiles.js';
+import app from './App.ts';
+import { config } from './Config/config.ts';
+import { connectDB } from './DataBase/index.ts';
+import { validateEnv } from './Utils/validateEnv.ts';
+import { startCleanupCron } from './Utils/cleanupOrphanFiles.ts';
 
 const startServer = async () => {
   try {

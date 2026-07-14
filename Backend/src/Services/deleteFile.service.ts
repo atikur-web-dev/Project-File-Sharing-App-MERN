@@ -1,8 +1,8 @@
 // Backend/src/Services/deleteFile.service.ts
 import fs from 'fs/promises';
 import path from 'path';
-import { File } from '../Models/file.schema.js';
-import { NotFoundError, ForbiddenError } from '../Utils/errors/httpErrors.js';
+import { File } from '../Models/file.schema.ts';
+import { NotFoundError, ForbiddenError } from '../Utils/errors/httpErrors.ts';
 
 export async function deleteFileService(uuid: string, userId?: string) {
   const file = await File.findOne({ uuid });

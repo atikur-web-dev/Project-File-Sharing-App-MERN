@@ -5,22 +5,22 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 // Routes
-import authRouter from "./Routes/auth.route.js";
-import fileRouter from "./Routes/file.route.js";
+import authRouter from "./Routes/auth.route.ts";
+import fileRouter from "./Routes/file.route.ts";
 
 // Error Handler
-import { errorHandler } from "./Middlewares/errorHandler.js";
+import { errorHandler } from "./Middlewares/errorHandler.ts";
 
 // Security Middlewares
 import { 
   generalLimiter, 
   authLimiter, 
   uploadLimiter 
-} from "./Middlewares/rateLimit.middleware.js";
+} from "./Middlewares/rateLimit.middleware.ts";
 import { 
   securityHeaders, 
   removeSensitiveHeaders 
-} from "./Middlewares/security.middleware.js";
+} from "./Middlewares/security.middleware.ts";
 
 const app = express();
 
@@ -68,8 +68,12 @@ app.get("/health", (_req: Request, res: Response) => {
   });
 });
 
+
+
 app.use("/api/v1/auth", authLimiter);
 app.use("/api/v1/auth", authRouter);
+
+// File Upload Routes 
 app.use("/api/v1/files", (req, res, next) => {
   if (req.method === "POST") {
     uploadLimiter(req, res, next);
@@ -77,8 +81,7 @@ app.use("/api/v1/files", (req, res, next) => {
     next();
   }
 });
-
-app.use("/api/v1", fileRouter); 
+app.use("/api/v1", fileRouter);
 
 app.use((_req: Request, res: Response) => {
   res.status(404).json({

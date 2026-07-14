@@ -1,6 +1,6 @@
 // Backend/src/Services/logout.service.ts
-import { User } from '../Models/user.schema.js';
-import { UnauthorizeError } from '../Utils/errors/httpErrors.js';
+import { User } from '../Models/user.schema.ts';
+import { UnauthorizeError } from '../Utils/errors/httpErrors.ts';
 
 export async function logoutService(userID: string): Promise<void> {
   const result = await User.findByIdAndUpdate(
