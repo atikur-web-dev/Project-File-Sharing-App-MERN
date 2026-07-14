@@ -1,23 +1,24 @@
 import type { Response, Request, NextFunction } from 'express';
-import { ValidationError } from '../Utils/errors/httpErrors.ts';
-import { config } from '../Config/config.ts';
+import { ValidationError } from '../Utils/errors/httpErrors.js';
+import { config } from '../Config/config.js';
 import {
   singleFileUploadService,
   multipleFileUploadService,
   type FileUploadResponse,
-} from '../Services/fileUpload.service.ts';
+} from '../Services/fileUpload.service.js';
 import {
   getFileInfoService,
   getMultipleFilesInfoService,
   getPaginatedFilesService,
   type PaginationOptions,
-} from '../Services/getFileInfo.service.ts';
-import { NotFoundError } from '../Utils/errors/httpErrors.ts';
-import { OkResponse } from '../Utils/success/httpSuccess.ts';
+} from '../Services/getFileInfo.service.js';
+import { NotFoundError } from '../Utils/errors/httpErrors.js';
+import { OkResponse } from '../Utils/success/httpSuccess.js';
 import fs from 'fs';
 import path from 'path';
-import { File } from '../Models/file.schema.ts';
-import { deleteFileService } from '../Services/deleteFile.service.ts';
+import { File } from '../Models/file.schema.js';
+import { deleteFileService } from '../Services/deleteFile.service.js';
+
 
 export const fileUpload = async (
   req: Request,

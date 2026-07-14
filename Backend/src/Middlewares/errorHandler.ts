@@ -1,6 +1,7 @@
 import type { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import { ApiError } from "../Utils/apiError.ts";
-import { config } from "../Config/config.ts";
+import { ApiError } from "../Utils/apiError.js";
+import { config } from "../Config/config.js";
+
 
 export const errorHandler: ErrorRequestHandler = (
   err: any,

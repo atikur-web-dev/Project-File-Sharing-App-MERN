@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import { config } from '../Config/config.ts';
-import { UnauthorizeError } from '../Utils/errors/httpErrors.ts';
-import { User } from '../Models/user.schema.ts';
+import { config } from '../Config/config.js';
+import { UnauthorizeError } from '../Utils/errors/httpErrors.js';
+import { User } from '../Models/user.schema.js';
 
 declare global {
   namespace Express {

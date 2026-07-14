@@ -1,6 +1,4 @@
 // Backend/src/Utils/validateEnv.ts
-// Check ENV variables before server start
-
 export function validateEnv(): void {
   const requiredEnvVars = [
     'PORT',

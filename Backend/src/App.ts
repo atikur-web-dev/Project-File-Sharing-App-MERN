@@ -5,22 +5,22 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 // Routes
-import authRouter from "./Routes/auth.route.ts";
-import fileRouter from "./Routes/file.route.ts";
+import authRouter from "./Routes/auth.route.js";
+import fileRouter from "./Routes/file.route.js";
 
 // Error Handler
-import { errorHandler } from "./Middlewares/errorHandler.ts";
+import { errorHandler } from "./Middlewares/errorHandler.js";
 
 // Security Middlewares
 import { 
   generalLimiter, 
   authLimiter, 
   uploadLimiter 
-} from "./Middlewares/rateLimit.middleware.ts";
+} from "./Middlewares/rateLimit.middleware.js";
 import { 
   securityHeaders, 
   removeSensitiveHeaders 
-} from "./Middlewares/security.middleware.ts";
+} from "./Middlewares/security.middleware.js";
 
 const app = express();
 

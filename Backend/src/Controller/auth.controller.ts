@@ -1,25 +1,16 @@
 // Backend/src/Controller/auth.controller.ts
 import type { CookieOptions, NextFunction, Request, Response } from 'express';
-import { registerService } from '../Services/register.service.ts';
-import { CreatedResponse, OkResponse } from '../Utils/success/httpSuccess.ts';
-import { LoginService } from '../Services/login.service.ts';
-import { config } from '../Config/config.ts';
-import { emailVerificationService } from '../Services/emailVerification.service.ts';
-import { ValidationError } from '../Utils/errors/httpErrors.ts';
-import { authenticate } from '../Middlewares/auth.middleware.ts';
-import { logoutService } from '../Services/logout.service.ts';
-import { refreshTokenService } from '../Services/refreshToken.service.ts';
-// Work flow of this auth controller file
-// 1. Handle register request → call register service
-// 2. Send success response after registration
-// 3. Handle login request → call login service
-// 4. Setup cookie options (httpOnly, secure, sameSite)
-// 5. Set access token cookie
-// 6. Set refresh token cookie
-// 7. Send login success response
-// 8. Handle errors using next()
+import { registerService } from '../Services/register.service.js';
+import { CreatedResponse, OkResponse } from '../Utils/success/httpSuccess.js';
+import { LoginService } from '../Services/login.service.js';
+import { config } from '../Config/config.js';
+import { emailVerificationService } from '../Services/emailVerification.service.js';
+import { ValidationError } from '../Utils/errors/httpErrors.js';
+import { authenticate } from '../Middlewares/auth.middleware.js';
+import { logoutService } from '../Services/logout.service.js';
+import { refreshTokenService } from '../Services/refreshToken.service.js';
 
-// Register controller
+
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const newUser = await registerService(req.body);

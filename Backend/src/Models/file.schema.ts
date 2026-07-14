@@ -1,6 +1,6 @@
 // Backend/src/Models/file.schema.ts
 import mongoose, { Schema, model } from 'mongoose';
-import type { IFile } from '../Types/schema.d.ts';
+import type { IFile } from '../Types/schema.d.js';
 
 const fileSchema = new Schema<IFile>(
   {

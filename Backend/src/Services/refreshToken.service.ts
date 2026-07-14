@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import { config } from "../Config/config.ts";
-import { User } from "../Models/user.schema.ts";
-import { UnauthorizeError } from "../Utils/errors/httpErrors.ts";
+import { config } from "../Config/config.js";
+import { User } from "../Models/user.schema.js";
+import { UnauthorizeError } from "../Utils/errors/httpErrors.js";
 
 interface RefreshTokenPayload extends jwt.JwtPayload {
   _id: string;

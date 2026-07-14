@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../Models/user.schema.ts';
-import { NotFoundError, ValidationError } from '../Utils/errors/httpErrors.ts';
-import { config } from '../Config/config.ts';
+import { User } from '../Models/user.schema.js';
+import { NotFoundError, ValidationError } from '../Utils/errors/httpErrors.js';
+import { config } from '../Config/config.js';
 
 export async function emailVerificationService(token: string): Promise<string> {
   let decode: any;

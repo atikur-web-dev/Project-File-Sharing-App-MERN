@@ -1,5 +1,5 @@
 // Backend/src/Utils/success/httpSuccess.ts
-import { ApiSuccess } from './apiSuccess.ts';
+import { ApiSuccess } from './apiSuccess.js';
 
 export class CreatedResponse<T> extends ApiSuccess<T> {
   constructor(data?: T, message: string = 'Resources created successfully') {

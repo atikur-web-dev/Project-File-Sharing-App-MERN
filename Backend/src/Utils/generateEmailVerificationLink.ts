@@ -1,6 +1,6 @@
 // Backend/src/Utils/generateEmailVerificationLink.ts
 import jwt from 'jsonwebtoken';
-import { config } from '../Config/config.ts';
+import { config } from '../Config/config.js';
 
 // Email Verification Link generation Function
 

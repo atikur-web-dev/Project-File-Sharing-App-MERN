@@ -1,5 +1,5 @@
 // Backend/src/Utils/errors/httpErrors.ts
-import { ApiError } from '../apiError.ts';
+import { ApiError } from '../apiError.js';
 
 export class BadRequestError extends ApiError {
   constructor(

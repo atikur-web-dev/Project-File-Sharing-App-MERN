@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from "mongoose";
 import type { IUser } from "../Types/schema.js";
 import { hash, compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { config } from "../Config/config.ts";
+import { config } from "../Config/config.js";
 
 const userSchema = new Schema<IUser>(
   {
