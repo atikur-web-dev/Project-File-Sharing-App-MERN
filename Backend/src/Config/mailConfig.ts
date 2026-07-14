@@ -10,7 +10,7 @@ export async function sendMail(
   html: string,
 ): Promise<void> {
   try {
-    // Resend API কল
+    
     const { data, error } = await resend.emails.send({
       from: 'FileSharing <onboarding@resend.dev>',
       to: to,

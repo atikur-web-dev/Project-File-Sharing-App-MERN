@@ -1,4 +1,3 @@
-// D:\File-Sharing-App\File-Sharing-App-Practice-One\Backend\src\Services\register.service.ts
 import { ZRegisterUser } from '../Validators/auth.validator.ts';
 import type { RegisterUserDTO } from '../Validators/auth.validator.ts';
 import { formatErrors } from '../Utils/errors/formatErrors.ts';
@@ -8,14 +7,6 @@ import type { IUserResponse } from '../Types/schema.d.ts';
 import { generateVerificationLink } from '../Utils/generateEmailVerificationLink.ts';
 import { sendMail } from '../Config/mailConfig.ts';
 import { emailVerificationTemplate } from '../templates/email-templates/emailVerification.ts';
-
-// Work flow of this register service file
-// 1. Validate input (Zod)
-// 2. Check if user already exists
-// 3. Create new user in database
-// 4. Handle duplicate email error (fallback)
-// 5. Prepare safe response
-// 6. Return user data
 
 export async function registerService(
   userData: unknown,
@@ -37,11 +28,8 @@ export async function registerService(
 
   try {
     const newUser = await User.create(validatedData);
-    // Verification through email
     try {
-      // Generate URL
       const verifyLink = generateVerificationLink(newUser.email);
-      // generate Email template
       const emailTemplate = emailVerificationTemplate(
         verifyLink,
         newUser.displayName,

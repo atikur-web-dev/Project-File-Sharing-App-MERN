@@ -1,10 +1,8 @@
-// Backend/src/Middlewares/rateLimit.middleware.ts
 import rateLimit from 'express-rate-limit';
 
-// General rate limiter (For all API)
 export const generalLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 15 minutes
-  max: 100, // 100 request
+  windowMs: 1 * 60 * 1000, 
+  max: 100, 
   message: {
     success: false,
     message:
@@ -14,10 +12,9 @@ export const generalLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Auth rate limiter
 export const authLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 15 minutes
-  max: 5, // Max 5 request (reg + login)
+  windowMs: 1 * 60 * 1000, 
+  max: 5, 
   message: {
     success: false,
     message:
@@ -28,10 +25,9 @@ export const authLimiter = rateLimit({
   skipSuccessfulRequests: false,
 });
 
-// File Upload Rate Limiter
 export const uploadLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hrs
-  max: 20, // 20 files every 1 hrs
+  windowMs: 60 * 60 * 1000, 
+  max: 20, 
   message: {
     success: false,
     message: 'File upload limit reached. Please try again after 1 hour.',

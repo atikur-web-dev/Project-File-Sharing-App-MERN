@@ -49,7 +49,6 @@ fileSchema.statics.findByUser = function (userID: string) {
   return this.find({ whoUploaded: userID }).sort({ createdAt: -1 });
 };
 
-// find user by UUID and check user (ownership verification)
 fileSchema.statics.findByUuidAndUser = function (uuid: string, user?: string) {
   const query: any = { uuid };
   if (user) {

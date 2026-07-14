@@ -1,7 +1,5 @@
-// Backend/src/Middlewares/security.middleware.ts
 import type { Request, Response, NextFunction } from 'express';
 
-// Add Security middleware
 export const securityHeaders = (
   req: Request,
   res: Response,
@@ -19,7 +17,6 @@ export const securityHeaders = (
   next();
 };
 
-// Remove Sensitive Headers
 export const removeSensitiveHeaders = (
   req: Request,
   res: Response,

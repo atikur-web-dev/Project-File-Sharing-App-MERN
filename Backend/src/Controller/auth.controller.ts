@@ -125,9 +125,8 @@ const getCurrentUser = async (req: Request, res: Response, next: NextFunction) =
 
 const logout = async(req : Request, res : Response,  next : NextFunction) => {
   try {
-    // set req.user in authenticate middleware
+
   const userId = req.user!._id;
-  // Logout service call
   await logoutService(userId)
   const cookieOptions: CookieOptions = {
       httpOnly: true,

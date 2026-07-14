@@ -1,15 +1,6 @@
-// Backend/src/Middlewares/errorHandler.ts
 import type { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { ApiError } from "../Utils/apiError.ts";
 import { config } from "../Config/config.ts";
-
-// Work flow of this error handler middleware
-// 1. Catch all errors from app (global handler)
-// 2. Check if error is custom ApiError
-// 3. Send structured error response (status, message, errors)
-// 4. Include stack trace in development mode only
-// 5. Handle unknown/unexpected errors
-// 6. Send generic 500 Internal Server Error response
 
 export const errorHandler: ErrorRequestHandler = (
   err: any,
@@ -17,7 +8,6 @@ export const errorHandler: ErrorRequestHandler = (
   res: Response,
   _next: NextFunction
 ) => {
- 
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json({
       success: err.status,      
@@ -29,7 +19,6 @@ export const errorHandler: ErrorRequestHandler = (
     });
   }
 
- 
   const message = err instanceof Error ? err.message : "Internal Server Error";
   
   return res.status(500).json({

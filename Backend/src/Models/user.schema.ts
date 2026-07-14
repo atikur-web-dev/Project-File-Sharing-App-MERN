@@ -1,17 +1,8 @@
-// Backend/src/Models/user.schema.ts
 import mongoose, { Schema, model } from "mongoose";
 import type { IUser } from "../Types/schema.js";
 import { hash, compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../Config/config.ts";
-
-// Work flow of this user schema file
-// 1. Define user schema structure
-// 2. Hash password before saving (pre-save hook)
-// 3. Add method to verify password
-// 4. Generate access token (JWT)
-// 5. Generate refresh token (JWT)
-// 6. Export User model
 
 const userSchema = new Schema<IUser>(
   {
@@ -67,7 +58,6 @@ userSchema.methods.checkPassword = async function (
   return await compare(password, this.password);
 };
 
-// Access token generator
 userSchema.methods.generateAccessToken = function (): string {
   const userId = this._id.toString();
 
@@ -85,7 +75,6 @@ userSchema.methods.generateAccessToken = function (): string {
   );
 };
 
-// generate Refresh Token
 userSchema.methods.generateRefreshToken = function (): string {
   const userId = this._id.toString();
 
