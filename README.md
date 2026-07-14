@@ -3,6 +3,7 @@
 A production-ready RESTful API for secure file uploading, sharing, authentication, and file management built with **Node.js**, **TypeScript**, **Express.js**, and **MongoDB**.
 
 
+---
 ## Tech Stack
 
 - **Runtime:** Node.js + TypeScript
@@ -55,29 +56,6 @@ REFRESH_TOKEN_EXPIRE=30d
 
 RESEND_API_KEY=re_xxxxxxxxxxxxxx
 ```
-
-## Project Structure
-```
-Backend/
-├── src/
-│   ├── Config/          # Environment & mail configs
-│   ├── Controller/      # Auth & file controllers
-│   ├── DataBase/        # MongoDB connection
-│   ├── Middlewares/     # Auth, upload, rate limit, error handler
-│   ├── Models/          # User & File schemas
-│   ├── Routes/          # Auth & File routes
-│   ├── Services/        # Business logic (register, login, upload, etc.)
-│   ├── Types/           # TypeScript interfaces
-│   ├── Utils/           # Helpers, validation, cleanup cron
-│   ├── Validators/      # Zod validation rules
-│   ├── App.ts           # Express app setup
-│   └── server.ts        # Server entry point
-├── .env.example
-├── package.json
-└── tsconfig.json
-```
-
-
 ## Quick Start
 ### Prerequisites
 - Node.js (v18+)
@@ -101,6 +79,30 @@ npm run dev
 
 App runs on http://localhost:5173
 ```
+
+## Project Structure
+```
+Backend/
+├── src/
+│   ├── Config/          # Environment & mail configs
+│   ├── Controller/      # Auth & file controllers
+│   ├── DataBase/        # MongoDB connection
+│   ├── Middlewares/     # Auth, upload, rate limit, error handler
+│   ├── Models/          # User & File schemas
+│   ├── Routes/          # Auth & File routes
+│   ├── Services/        # Business logic (register, login, upload, etc.)
+│   ├── Types/           # TypeScript interfaces
+│   ├── Utils/           # Helpers, validation, cleanup cron
+│   ├── Validators/      # Zod validation rules
+│   ├── App.ts           # Express app setup
+│   └── server.ts        # Server entry point
+├── .env.example
+├── package.json
+└── tsconfig.json
+```
+
+
+
 
 ### Complete API Endpoints
 **Base URL:** `http://localhost:8000/api/v1`
@@ -193,3 +195,7 @@ postman/File-Sharing-App.postman_collection.json
 ```
 
 
+## Author
+
+**Atikur Rahman**  
+GitHub: [@atikur-web-dev](https://github.com/atikur-web-dev)
