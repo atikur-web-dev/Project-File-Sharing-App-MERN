@@ -1,14 +1,24 @@
-#  File Sharing & Distribution API Backend
+# Backend - File Sharing API
 
-This is the backend service of the File Sharing App.
+Backend service for the File Sharing Application built with Node.js, TypeScript, Express, and MongoDB.
 
-For the comprehensive, professional documentation of all backend architectures, security layers, environmental setups, and **Postman-ready API Endpoints Reference**, please refer to the main repository [README.md](../README.md).
+## Documentation
 
----
+For complete API documentation, architecture details, and Postman collection:
+ [Main Repository README](../README.md)
 
-##  Quick Commands
 
-*   **Install dependencies:** `npm install`
-*   **Start development server:** `npm run dev`
-*   **Build the application:** `npm run build`
-*   **Start in production mode:** `npm run start`
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Development server (with auto-reload)
+npm run dev
+
+# Build for production
+npm run build
+
+# Production server
+npm start

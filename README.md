@@ -13,18 +13,42 @@ A production-ready file sharing and distribution backend built with **Node.js**,
 - **Email:** Resend API
 - **Scheduled Tasks:** node-cron
 
-### Project Structure
-```txt
+### Environment Variables
+Create a `.env` file by copying `.env.example`:
+```bash
+cp .env.example .env
+
+PORT=8000
+APP_URL=http://localhost
+NODE_ENV=development
+DATABASE_URL=mongodb+srv://<username>:<password>@cluster.mongodb.net/dbname
+ACCESS_TOKEN_SECRET_KEY=your_access_secret
+ACCESS_TOKEN_EXPIRE=1d
+REFRESH_TOKEN_SECRET_KEY=your_refresh_secret
+REFRESH_TOKEN_EXPIRE=30d
+
+RESEND_API_KEY=re_xxxxxxxxxxxxxx
+```
+
+## Project Structure
+```
 Backend/
 ├── src/
-│   ├── Config/          # Environment configuration
-│   ├── Controller/      # Request handlers
-│   ├── Models/          # MongoDB schemas
-│   ├── Services/        # Business logic
-│   ├── Middlewares/     # Auth, validation, upload
-│   ├── Routes/          # API endpoints
-│   ├── Utils/           # Helpers & cleanup scripts
-│   └── server.ts        # Entry point
+│   ├── Config/          # Environment & mail configs
+│   ├── Controller/      # Auth & file controllers
+│   ├── DataBase/        # MongoDB connection
+│   ├── Middlewares/     # Auth, upload, rate limit, error handler
+│   ├── Models/          # User & File schemas
+│   ├── Routes/          # Auth & File routes
+│   ├── Services/        # Business logic (register, login, upload, etc.)
+│   ├── Types/           # TypeScript interfaces
+│   ├── Utils/           # Helpers, validation, cleanup cron
+│   ├── Validators/      # Zod validation rules
+│   ├── App.ts           # Express app setup
+│   └── server.ts        # Server entry point
+├── .env.example
+├── package.json
+└── tsconfig.json
 ```
 
 
@@ -93,8 +117,5 @@ App runs on http://localhost:5173
   "password": "Password123!"
 }
 
-GET /api/v1/auth/me
 
-text
-Headers: Authorization: Bearer <token>\
 
