@@ -43,7 +43,6 @@ const fileSchema = new Schema<IFile>(
   },
 );
 
-fileSchema.index({ uuid: 1 });
 fileSchema.index({ whoUploaded: 1 });
 fileSchema.statics.findByUser = function (userID: string) {
   return this.find({ whoUploaded: userID }).sort({ createdAt: -1 });

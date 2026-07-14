@@ -68,12 +68,8 @@ app.get("/health", (_req: Request, res: Response) => {
   });
 });
 
-
-
 app.use("/api/v1/auth", authLimiter);
 app.use("/api/v1/auth", authRouter);
-
-// File Upload Routes 
 app.use("/api/v1/files", (req, res, next) => {
   if (req.method === "POST") {
     uploadLimiter(req, res, next);
@@ -81,7 +77,8 @@ app.use("/api/v1/files", (req, res, next) => {
     next();
   }
 });
-app.use("/api/v1", fileRouter);
+
+app.use("/api/v1", fileRouter); 
 
 app.use((_req: Request, res: Response) => {
   res.status(404).json({
