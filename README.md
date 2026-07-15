@@ -1,14 +1,5 @@
 # File Sharing App Backend
 
-![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-5.x-000000?style=for-the-badge&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-6.x-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-Authentication-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white)
-![Multer](https://img.shields.io/badge/Multer-File%20Upload-FF6C37?style=for-the-badge)
-![Render](https://img.shields.io/badge/Render-Deployed-46E3B7?style=for-the-badge&logo=render&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
-
 A production-ready RESTful API for secure file uploading, sharing, authentication, and file management built with **Node.js**, **TypeScript**, **Express.js**, and **MongoDB**.
 
 
